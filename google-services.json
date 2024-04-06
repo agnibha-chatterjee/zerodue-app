@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "483260909586",
+    "project_id": "hattori-599af",
+    "storage_bucket": "hattori-599af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483260909586:android:8eebcda1154d9eeeaeb0cb",
+        "android_client_info": {
+          "package_name": "com.zerodue.zerodueapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADRzP9t-3pNCGQoGEQlVzBHU6EB1qh5Ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
