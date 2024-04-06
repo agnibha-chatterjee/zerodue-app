@@ -7,7 +7,9 @@
       "@hooks/*": ["app/hooks/*"],
       "@screens/*": ["app/screens/*"],
       "@schemas/*": ["app/schemas/*"],
-      "@config/*": ["app/config/*"]
+      "@config/*": ["app/config/*"],
+      "@utils/*": ["app/utils/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "exclude": ["node_modules"]

@@ -19,12 +19,8 @@ export default function RootScreen() {
       return;
     }
 
-    router.push("screens/auth/sign-up");
+    router.replace("screens/auth/sign-up");
   }, [isNavigationReady, fontsLoaded]);
 
-  return (
-    <View>
-      <Text>Hello, world!</Text>
-    </View>
-  );
+  return null;
 }

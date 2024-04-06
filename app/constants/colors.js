@@ -6,4 +6,5 @@ export const colors = {
   inputBg: "#28292d",
   inputPlaceholderColor: "#8F9094",
   inputError: "#B00020",
+  transparent: "transparent",
 };

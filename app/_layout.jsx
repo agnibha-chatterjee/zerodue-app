@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import Toast from "react-native-toast-message";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function RootLayout() {
@@ -10,7 +11,9 @@ export default function RootLayout() {
         <Stack.Screen name="index" />
         <Stack.Screen name="screens/auth/sign-up" />
         <Stack.Screen name="screens/auth/otp-verification" />
+        <Stack.Screen name="screens/onboarding/method-onboarding" />
       </Stack>
+      <Toast />
     </QueryClientProvider>
   );
 }

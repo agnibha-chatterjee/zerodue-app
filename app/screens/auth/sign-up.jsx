@@ -15,6 +15,7 @@ import { Input } from "@components/text-input";
 import { colors } from "@constants/colors";
 import { DatePicker } from "@components/date-picker";
 import { signupValidationSchema } from "@schemas/signup-validation";
+import { formatPhoneNumber, unformatPhoneNumber } from "@utils/common";
 
 export default function SignupScreen() {
   const {
@@ -34,7 +35,10 @@ export default function SignupScreen() {
   const onSubmit = (data) => {
     router.push({
       pathname: "screens/auth/otp-verification",
-      params: data,
+      params: {
+        ...data,
+        phoneNumber: `+1${unformatPhoneNumber(data.phoneNumber)}`,
+      },
     });
   };
 
@@ -48,7 +52,7 @@ export default function SignupScreen() {
         >
           <View style={{ flex: 1 }}>
             <Text
-              size="xl"
+              size="2xl"
               style={{
                 marginBottom: 20,
               }}
@@ -118,6 +122,7 @@ export default function SignupScreen() {
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Input
                       placeholder="Phone number"
+                      keyboardType="number-pad"
                       style={{
                         marginVertical: 10,
                         flexGrow: 1,
@@ -126,7 +131,17 @@ export default function SignupScreen() {
                         paddingHorizontal: 0,
                       }}
                       onChangeText={onChange}
-                      onBlur={onBlur}
+                      onBlur={() => {
+                        if (value) {
+                          const unformattedPhoneNumber =
+                            unformatPhoneNumber(value);
+                          const formattedPhoneNumber = formatPhoneNumber(
+                            unformattedPhoneNumber
+                          );
+                          onChange(formattedPhoneNumber);
+                        }
+                        onBlur();
+                      }}
                       value={value}
                     />
                   )}
@@ -158,11 +173,8 @@ export default function SignupScreen() {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Button
-          btnStyle={{ marginTop: "auto" }}
-          onPress={handleSubmit(onSubmit)}
-        >
-          Sign up
+        <Button style={{ marginTop: "auto" }} onPress={handleSubmit(onSubmit)}>
+          <Text>Sign up</Text>
         </Button>
       </KeyboardAvoidingView>
     </DarkSafeAreaView>

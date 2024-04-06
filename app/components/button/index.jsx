@@ -1,14 +1,11 @@
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { colors } from "@constants/colors";
 
 export function Button(props) {
   const {
     children,
-    btnStyle = {},
-    btnTextStyle = {},
+    style = {},
     backgroundColor = colors.btnBg,
-    btnTextColor = colors.white,
-    btnTextSize = 14,
     marginHorizontal = 0,
     marginVertical = 0,
     paddingVertical = 15,
@@ -27,19 +24,11 @@ export function Button(props) {
           paddingVertical,
           paddingHorizontal,
         },
-        btnStyle,
+        style,
       ]}
       {...remainingProps}
     >
-      <Text
-        style={[
-          styles.btnText,
-          { fontSize: btnTextSize, color: btnTextColor },
-          btnTextStyle,
-        ]}
-      >
-        {children}
-      </Text>
+      {children}
     </Pressable>
   );
 }
@@ -48,8 +37,5 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     alignItems: "center",
-  },
-  btnText: {
-    fontSize: 16,
   },
 });

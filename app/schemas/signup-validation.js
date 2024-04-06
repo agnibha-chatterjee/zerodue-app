@@ -21,7 +21,8 @@ export const signupValidationSchema = yup
     phoneNumber: yup
       .string()
       .required("Phone number is required")
-      .matches(/^\d{10}$/, "Phone number must have 10 digits"),
+      .min(14, "Please verify your phone number")
+      .max(14, "Please verify your phone number"),
     dateOfBirth: yup.string().required("Date of birth is required"),
   })
   .required();
