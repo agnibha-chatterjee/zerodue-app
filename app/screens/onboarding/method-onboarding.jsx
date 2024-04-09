@@ -13,7 +13,7 @@ export default function MethodOnboarding() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setToken("pk_elem_VrNytbD8nAMXn6K8RDLV7jGWCaDgqKT4");
+      setToken("pk_elem_7zekUGP7y6kk3TDb3AWHj3KdBD7TV7Ai");
     }, 4000);
 
     return () => clearTimeout(timeout);

@@ -15,6 +15,7 @@ module.exports = function (api) {
             "@schemas": "./app/schemas",
             "@config": "./app/config",
             "@utils": "./app/utils",
+            "@api": "./app/api",
             "@assets": "./assets",
           },
         },
