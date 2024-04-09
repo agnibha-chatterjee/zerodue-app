@@ -1,6 +1,6 @@
 import { colors } from "@constants/colors";
-import { TextInput as RNTextInput } from "react-native";
 import PropTypes from "prop-types";
+import { TextInput as RNTextInput } from "react-native";
 
 export function Input(props) {
   const { style, ...remainingProps } = props;

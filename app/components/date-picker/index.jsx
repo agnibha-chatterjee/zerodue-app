@@ -1,9 +1,9 @@
+import { Input } from "@components/text-input";
+import dayjs from "dayjs";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import dayjs from "dayjs";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import PropTypes from "prop-types";
-import { Input } from "@components/text-input";
 
 export function DatePicker(props) {
   const {
@@ -12,7 +12,7 @@ export function DatePicker(props) {
     onFocus = undefined,
   } = props;
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] = useState(value ?? valuedayjs().format("MM-DD-YYYY"));
+  const [date, setDate] = useState(value ?? dayjs().format("MM-DD-YYYY"));
 
   useEffect(() => {
     if (onChange) {

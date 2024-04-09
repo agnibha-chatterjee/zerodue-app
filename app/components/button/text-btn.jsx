@@ -1,4 +1,3 @@
-import { colors } from "@constants/colors";
 import { Pressable } from "react-native";
 
 export function TextButton(props) {

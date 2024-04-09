@@ -1,11 +1,11 @@
-import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import LoaderIcon from "@assets/icons/loader.svg";
-import { View } from "react-native";
+import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { MethodFiDialog } from "@components/MethodFiDialog";
-import { useEffect, useState } from "react";
-import Toast from "react-native-toast-message";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function MethodOnboarding() {
   const [token, setToken] = useState(null);

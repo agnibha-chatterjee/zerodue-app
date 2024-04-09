@@ -1,8 +1,8 @@
+import { colors } from "@constants/colors";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { WebView } from "react-native-webview";
 import { URLSearchParams } from "react-native-url-polyfill";
-import { colors } from "@constants/colors";
+import { WebView } from "react-native-webview";
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.white },
@@ -26,7 +26,7 @@ export function MethodFiDialog(props) {
       const searchParams = new URLSearchParams(`?${event.url.split("?")[1]}`);
       const params = Object.fromEntries(searchParams);
       const op = searchParams.get("op");
-      let response = { ...params };
+      const response = { ...params };
 
       if (params.accounts) response.accounts = JSON.parse(params.accounts);
 

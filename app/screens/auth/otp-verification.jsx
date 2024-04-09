@@ -1,5 +1,4 @@
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
-import { Button } from "@components/button";
 import { TextButton } from "@components/button/text-btn";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";

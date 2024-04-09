@@ -1,6 +1,7 @@
+import camelcaseKeys from "camelcase-keys";
 import { isEmpty } from "lodash";
+
 import { ZERODUE_BASE_URL } from "./api-routes";
-import { keysToCamelCase } from "@utils/common";
 
 export const createApi = async ({
   endpoint,
@@ -65,7 +66,7 @@ export const createApi = async ({
     }
 
     const jsonResponse = await res.json();
-    return keysToCamelCase(jsonResponse);
+    return camelcaseKeys(jsonResponse);
   } catch (err) {
     if (err instanceof SyntaxError) {
       console.log(

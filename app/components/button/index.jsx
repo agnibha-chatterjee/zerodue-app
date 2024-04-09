@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet } from "react-native";
 import { colors } from "@constants/colors";
+import { Pressable, StyleSheet } from "react-native";
 
 export function Button(props) {
   const {
@@ -17,7 +17,7 @@ export function Button(props) {
       style={({ pressed }) => [
         styles.button,
         {
-          backgroundColor: backgroundColor,
+          backgroundColor,
           opacity: pressed ? 0.95 : 1,
           marginHorizontal,
           marginVertical,

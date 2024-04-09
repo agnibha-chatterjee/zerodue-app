@@ -1,6 +1,6 @@
-import { Text as RNText } from "react-native";
 import { colors } from "@constants/colors";
 import PropTypes from "prop-types";
+import { Text as RNText } from "react-native";
 
 export function Text(props) {
   const { color = colors.white, style = {}, size = "sm" } = props;
@@ -49,7 +49,7 @@ export function Text(props) {
     <RNText
       style={[
         {
-          fontSize: fontSize,
+          fontSize,
           color,
           fontFamily: "SF-Pro-Display",
         },

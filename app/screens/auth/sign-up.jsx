@@ -1,3 +1,15 @@
+import { generateOtp } from "@api/apis";
+import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
+import { Button } from "@components/button";
+import { DatePicker } from "@components/date-picker";
+import { Text } from "@components/text";
+import { Input } from "@components/text-input";
+import { colors } from "@constants/colors";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signupValidationSchema } from "@schemas/signup-validation";
+import { formatPhoneNumber, unformatPhoneNumber } from "@utils/common";
+import { router } from "expo-router";
+import { useForm, Controller } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -5,19 +17,7 @@ import {
   View,
   Keyboard,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { router } from "expo-router";
 import { useMutation } from "react-query";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "@components/button";
-import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
-import { Text } from "@components/text";
-import { Input } from "@components/text-input";
-import { colors } from "@constants/colors";
-import { DatePicker } from "@components/date-picker";
-import { signupValidationSchema } from "@schemas/signup-validation";
-import { formatPhoneNumber, unformatPhoneNumber } from "@utils/common";
-import { generateOtp } from "@api/apis";
 
 export default function SignupScreen() {
   const { mutate } = useMutation({

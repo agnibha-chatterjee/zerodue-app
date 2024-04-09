@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { router } from "expo-router";
-import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
-import { useFonts } from "expo-font";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ASYNC_STORAGE_KEYS } from "@constants/async-storage-keys";
+import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFonts } from "expo-font";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 
 export default function RootScreen() {
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     "SF-Pro-Display": require("../assets/fonts/SF-Pro-Display-Regular.otf"),
   });
   const isNavigationReady = useIsNavigationReady();
