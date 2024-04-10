@@ -3,7 +3,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export function DarkSafeAreaView(props) {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.blackBg }}>
+    <SafeAreaView
+      edges={["top", "left", "right"]}
+      style={{
+        flex: 1,
+        backgroundColor: colors.blackBg,
+      }}
+    >
       {props.children}
     </SafeAreaView>
   );

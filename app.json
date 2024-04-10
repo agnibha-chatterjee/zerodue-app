@@ -34,7 +34,10 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/SF-Pro-Display-Regular.otf"]
+          "fonts": [
+            "./assets/fonts/SF-Pro-Display-Regular.otf",
+            "./assets/fonts/SF-Pro-Display-Bold.otf"
+          ]
         }
       ]
     ]

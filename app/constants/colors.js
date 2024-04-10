@@ -8,4 +8,5 @@ export const colors = {
   inputError: "#B00020",
   transparent: "transparent",
   cardBg: "#2E2F34",
+  yellow: "#FECB32",
 };

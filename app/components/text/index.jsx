@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Text as RNText } from "react-native";
 
 export function Text(props) {
-  const { color = colors.white, style = {}, size = "sm" } = props;
+  const { color = colors.white, style = {}, size = "sm", bold = false } = props;
 
   let fontSize = 16;
   switch (size) {
@@ -51,7 +51,7 @@ export function Text(props) {
         {
           fontSize,
           color,
-          fontFamily: "SF-Pro-Display",
+          fontFamily: bold ? "SF-Pro-Display-Bold" : "SF-Pro-Display-Regular",
         },
         { ...style },
       ]}
@@ -77,5 +77,6 @@ Text.propTypes = {
   ]),
   color: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  bold: PropTypes.bool,
   children: PropTypes.node,
 };

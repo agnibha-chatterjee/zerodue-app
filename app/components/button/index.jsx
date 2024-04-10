@@ -17,8 +17,11 @@ export function Button(props) {
       style={({ pressed }) => [
         styles.button,
         {
-          backgroundColor,
           opacity: pressed ? 0.95 : 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor,
           marginHorizontal,
           marginVertical,
           paddingVertical,

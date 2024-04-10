@@ -9,7 +9,7 @@ export function Input(props) {
       placeholderTextColor={colors.inputPlaceholderColor}
       style={[
         {
-          fontFamily: "SF-Pro-Display",
+          fontFamily: "SF-Pro-Display-Regular",
           color: colors.white,
           backgroundColor: colors.inputBg,
           paddingHorizontal: 16,

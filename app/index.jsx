@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 
 export default function RootScreen() {
   const [fontsLoaded] = useFonts({
-    "SF-Pro-Display": require("../assets/fonts/SF-Pro-Display-Regular.otf"),
+    "SF-Pro-Display-Regular": require("../assets/fonts/SF-Pro-Display-Regular.otf"),
+    "SF-Pro-Display-Bold": require("../assets/fonts/SF-Pro-Display-Bold.otf"),
   });
   const isNavigationReady = useIsNavigationReady();
 
@@ -15,7 +16,7 @@ export default function RootScreen() {
 
   const checkOnboardingComplete = async () => {
     const onboardingComplete = await AsyncStorage.getItem(
-      ASYNC_STORAGE_KEYS.ONBOARDING_COMPLETE,
+      ASYNC_STORAGE_KEYS.ONBOARDING_COMPLETE
     );
     setOnboardingComplete(onboardingComplete === "TRUE");
   };
