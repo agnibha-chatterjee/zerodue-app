@@ -7,4 +7,5 @@ export const colors = {
   inputPlaceholderColor: "#8F9094",
   inputError: "#B00020",
   transparent: "transparent",
+  cardBg: "#2E2F34",
 };

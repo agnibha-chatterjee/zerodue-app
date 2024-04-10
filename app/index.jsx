@@ -15,7 +15,7 @@ export default function RootScreen() {
 
   const checkOnboardingComplete = async () => {
     const onboardingComplete = await AsyncStorage.getItem(
-      ASYNC_STORAGE_KEYS.ONBOARDING_COMPLETE
+      ASYNC_STORAGE_KEYS.ONBOARDING_COMPLETE,
     );
     setOnboardingComplete(onboardingComplete === "TRUE");
   };
@@ -34,7 +34,7 @@ export default function RootScreen() {
     if (onboardingComplete) {
       router.navigate("Home");
     }
-    router.replace("screens/auth/sign-up");
+    router.replace("screens/(tabs)");
   }, [isNavigationReady, fontsLoaded, onboardingComplete]);
 
   return null;

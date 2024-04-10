@@ -3,7 +3,8 @@ import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { MethodFiDialog } from "@components/MethodFiDialog";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
-import { useEffect, useState } from "react";
+import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
@@ -11,9 +12,12 @@ export default function MethodOnboarding() {
   const [token, setToken] = useState(null);
   const [cancelledByUser, setCancelledByUser] = useState(false);
 
+  const successRef = useRef(false);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setToken("pk_elem_7zekUGP7y6kk3TDb3AWHj3KdBD7TV7Ai");
+      // setToken("pk_elem_7zekUGP7y6kk3TDb3AWHj3KdBD7TV7Ai");
+      router.push("screens/(tabs)");
     }, 4000);
 
     return () => clearTimeout(timeout);
@@ -54,9 +58,13 @@ export default function MethodOnboarding() {
       env="dev"
       token={token}
       onOpen={(payload) => console.log("onOpen", payload)}
-      onSuccess={(payload) => console.log("onSuccess", payload)}
+      onSuccess={(payload) => {
+        console.log("onSuccess", payload);
+        successRef.current = true;
+      }}
       onEvent={(payload) => console.log("onEvent", payload)}
       onExit={(payload) => {
+        if (successRef.current) return;
         console.log("onExit", payload);
         setToken(null);
         setCancelledByUser(true);
