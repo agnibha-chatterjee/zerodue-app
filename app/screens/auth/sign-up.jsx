@@ -1,4 +1,4 @@
-import { generateOtp } from "@api/apis";
+import { generateOtp } from "@api/auth-api";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { Button } from "@components/button";
 import { DatePicker } from "@components/date-picker";

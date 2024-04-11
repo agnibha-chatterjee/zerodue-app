@@ -1,4 +1,4 @@
-import { checkAuthStatus } from "@api/apis";
+import { checkAuthStatus } from "@api/auth-api";
 import { ASYNC_STORAGE_KEYS } from "@constants/async-storage-keys";
 import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
 import AsyncStorage from "@react-native-async-storage/async-storage";

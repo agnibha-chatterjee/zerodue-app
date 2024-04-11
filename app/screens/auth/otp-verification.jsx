@@ -1,4 +1,4 @@
-import { verifyOtp } from "@api/apis";
+import { verifyOtp } from "@api/auth-api";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { TextButton } from "@components/button/text-btn";
 import { Text } from "@components/text";

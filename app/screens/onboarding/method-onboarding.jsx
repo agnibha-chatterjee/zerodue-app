@@ -1,4 +1,7 @@
-import { fetchMehodElementsToken, completeMethodOnboarding } from "@api/apis";
+import {
+  fetchMehodElementsToken,
+  completeMethodOnboarding,
+} from "@api/auth-api";
 import LoaderIcon from "@assets/icons/loader.svg";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { MethodFiDialog } from "@components/MethodFiDialog";

@@ -7,4 +7,6 @@ export const API_ENDPOINTS = {
   VERIFY_OTP: "/api/auth/verify-otp",
   FETCH_METHOD_ELEMENTS_TOKEN: "/api/auth/method-elements-token",
   COMPLETE_METHOD_ONBOARDING: "/api/auth/method-onboarding-complete",
+  ALL_LIABILITIES: "/api/liabilities",
+  ALL_CREDIT_CARDS: "/api/liabilities/credit-cards",
 };

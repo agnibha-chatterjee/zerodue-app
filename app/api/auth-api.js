@@ -14,13 +14,11 @@ async function getAsyncStorageValue(key) {
 }
 
 export const checkAuthStatus = async () => {
-  // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   const token = await getAsyncStorageValue(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   return createApi({
     endpoint: API_ENDPOINTS.AUTH_STATUS,
     method: HTTP_VERBS.GET,
     token,
-    enableLogging: true,
   });
 };
 
@@ -29,7 +27,6 @@ export const generateOtp = (reqBody) => {
     endpoint: API_ENDPOINTS.GENERATE_OTP,
     method: HTTP_VERBS.POST,
     body: reqBody,
-    enableLogging: true,
   });
 };
 
@@ -47,7 +44,6 @@ export const fetchMehodElementsToken = async () => {
     endpoint: API_ENDPOINTS.FETCH_METHOD_ELEMENTS_TOKEN,
     method: HTTP_VERBS.GET,
     token,
-    enableLogging: true,
   });
 };
 

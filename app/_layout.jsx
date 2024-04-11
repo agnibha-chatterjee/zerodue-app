@@ -1,3 +1,6 @@
+import "react-native-reanimated";
+import "react-native-gesture-handler";
+
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
