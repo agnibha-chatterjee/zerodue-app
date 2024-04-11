@@ -8,6 +8,7 @@ import { colors } from "@constants/colors";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupValidationSchema } from "@schemas/signup-validation";
 import { formatPhoneNumber, unformatPhoneNumber } from "@utils/common";
+import dayjs from "dayjs";
 import { router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -20,15 +21,11 @@ import {
 import { useMutation } from "react-query";
 
 export default function SignupScreen() {
-  const { mutate } = useMutation({
-    mutationKey: "generateOtp",
-    mutationFn: (reqBody) => generateOtp(reqBody),
-  });
-
   const {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: yupResolver(signupValidationSchema),
     defaultValues: {
@@ -39,18 +36,25 @@ export default function SignupScreen() {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationKey: "generateOtp",
+    mutationFn: (reqBody) => generateOtp(reqBody),
+    onSuccess: () => {
+      const formData = getValues();
+      router.push({
+        pathname: "screens/auth/otp-verification",
+        params: {
+          ...formData,
+          phoneNumber: `+1${unformatPhoneNumber(formData.phoneNumber)}`,
+        },
+      });
+    },
+  });
+
   const onSubmit = (data) => {
     mutate({
       ...data,
       phoneNumber: `+1${unformatPhoneNumber(data.phoneNumber)}`,
-    });
-
-    router.push({
-      pathname: "screens/auth/otp-verification",
-      params: {
-        ...data,
-        phoneNumber: `+1${unformatPhoneNumber(data.phoneNumber)}`,
-      },
     });
   };
 

@@ -36,7 +36,7 @@ export function DatePicker(props) {
         isVisible={isDatePickerVisible}
         mode="date"
         onConfirm={(date) => {
-          const formattedDate = dayjs(date).format("MM-DD-YYYY");
+          const formattedDate = dayjs(date).format("YYYY-MM-DD");
           setDate(formattedDate);
           setDatePickerVisibility(false);
         }}

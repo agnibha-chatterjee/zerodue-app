@@ -1,9 +1,8 @@
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
-import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { View } from "react-native";
 
-export default function CardsScreen() {
+export default function PaymentsScreen() {
   return (
     <DarkSafeAreaView>
       <View style={{ padding: 20 }}>
@@ -11,9 +10,11 @@ export default function CardsScreen() {
           Summary
         </Text>
         <Text size="2xl" style={{ marginBottom: 10 }}>
-          Cards
+          Payments
         </Text>
-        <CardsList />
+        <Text size="lg" style={{ marginBottom: 10 }}>
+          Coming soon
+        </Text>
       </View>
     </DarkSafeAreaView>
   );

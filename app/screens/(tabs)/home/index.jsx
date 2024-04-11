@@ -8,7 +8,7 @@ import { ScrollView, View } from "react-native";
 
 export default function HomeScreen() {
   return (
-    <DarkSafeAreaView>
+    <DarkSafeAreaView forScrollView>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}

@@ -1,5 +1,6 @@
 import camelcaseKeys from "camelcase-keys";
 import { isEmpty } from "lodash";
+import snakecaseKeys from "snakecase-keys";
 
 import { ZERODUE_BASE_URL } from "./api-routes";
 
@@ -7,7 +8,7 @@ export const createApi = async ({
   endpoint,
   method,
   token,
-  body,
+  body = {},
   enableLogging,
   cookie,
   headers = {},
@@ -16,8 +17,7 @@ export const createApi = async ({
 } = {}) => {
   const reqHeaders = {
     "Content-Type": "application/json",
-    ...(typeof window !== "undefined" && { Referer: window.location.origin }),
-    ...(token && { Authorization: `Token ${token}` }),
+    ...(token && { Authorization: `Bearer ${token}` }),
     ...(cookie && { Cookie: cookie }),
     ...(!isEmpty(headers) && { ...headers }),
   };
@@ -30,7 +30,7 @@ export const createApi = async ({
     console.log("Request Details: ", {
       completeUrl: ZERODUE_BASE_URL + endpoint,
       token,
-      body: JSON.stringify(body),
+      body: JSON.stringify(snakecaseKeys(body, { deep: true })),
       httpMethod: method,
       cookie,
       includeCredentials,
@@ -43,7 +43,7 @@ export const createApi = async ({
       method,
       headers: reqHeaders,
       ...(!isEmpty(body) && {
-        body: JSON.stringify(body),
+        body: JSON.stringify(snakecaseKeys(body, { deep: true })),
       }),
       credentials: includeCredentials ? "include" : "omit",
     });
@@ -66,7 +66,9 @@ export const createApi = async ({
     }
 
     const jsonResponse = await res.json();
-    return camelcaseKeys(jsonResponse);
+    const camelCasedResponse = camelcaseKeys(jsonResponse, { deep: true });
+
+    return camelCasedResponse;
   } catch (err) {
     if (err instanceof SyntaxError) {
       console.log(
@@ -74,7 +76,7 @@ export const createApi = async ({
         err
       );
     } else {
-      console.error("[CrustData API Error]", err);
+      console.error("[API Error]", err);
     }
 
     throw err;

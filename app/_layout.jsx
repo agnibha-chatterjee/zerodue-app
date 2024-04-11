@@ -4,7 +4,16 @@ import Toast from "react-native-toast-message";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function RootLayout() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+      mutations: {
+        retry: false,
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

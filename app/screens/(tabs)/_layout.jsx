@@ -1,7 +1,9 @@
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, FontAwesome6 } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+
+const ICON_SIZE = 24;
 
 export default function TabsLayout() {
   return (
@@ -24,7 +26,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <AntDesign
               name="home"
-              size={28}
+              size={ICON_SIZE}
               color={focused ? colors.white : colors.inputPlaceholderColor}
             />
           ),
@@ -38,7 +40,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="grid-outline"
-              size={28}
+              size={ICON_SIZE}
               color={focused ? colors.white : colors.inputPlaceholderColor}
             />
           ),
@@ -52,11 +54,25 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <AntDesign
               name="gift"
-              size={28}
+              size={ICON_SIZE}
               color={focused ? colors.white : colors.inputPlaceholderColor}
             />
           ),
           tabBarLabel: () => <Text size="xxs">Rewards</Text>,
+        }}
+      />
+      <Tabs.Screen
+        name="payments/index"
+        options={{
+          title: "Payments",
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome6
+              name="dollar-sign"
+              size={ICON_SIZE}
+              color={focused ? colors.white : colors.inputPlaceholderColor}
+            />
+          ),
+          tabBarLabel: () => <Text size="xxs">Payments</Text>,
         }}
       />
     </Tabs>

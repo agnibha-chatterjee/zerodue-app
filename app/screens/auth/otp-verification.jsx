@@ -1,23 +1,53 @@
+import { verifyOtp } from "@api/apis";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { TextButton } from "@components/button/text-btn";
 import { Text } from "@components/text";
+import { ASYNC_STORAGE_KEYS } from "@constants/async-storage-keys";
 import { colors } from "@constants/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useStore } from "app/store";
 import { router, useLocalSearchParams } from "expo-router";
 import { TouchableWithoutFeedback, View, Keyboard } from "react-native";
 import { OtpInput } from "react-native-otp-entry";
 import Toast from "react-native-toast-message";
+import { useMutation } from "react-query";
 
 export default function OtpVerificationScreen() {
   const params = useLocalSearchParams();
 
-  const onSubmitOtp = (otp) => {
-    Toast.show({
-      type: "success",
-      text1: "Success",
-      text2: "Your phone number has been verified",
-    });
+  const { setUser } = useStore((state) => ({ setUser: state.setUser }));
 
-    router.push("screens/onboarding/method-onboarding");
+  const { mutate } = useMutation({
+    mutationKey: "generateOtp",
+    mutationFn: (reqBody) => verifyOtp(reqBody),
+    onSuccess: async (data) => {
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Your phone number has been verified",
+      });
+      await AsyncStorage.setItem(
+        ASYNC_STORAGE_KEYS.AUTH_TOKEN,
+        data.accessToken
+      );
+      setUser(data.user);
+      router.replace("screens/onboarding/method-onboarding");
+    },
+    onError: (error) => {
+      Toast.show({
+        type: "error",
+        text1: "Incorrect OTP",
+        text2: error.message,
+      });
+    },
+  });
+
+  const onSubmitOtp = (otp) => {
+    const reqBody = {
+      otp,
+      phoneNumber: params.phoneNumber,
+    };
+    mutate(reqBody);
   };
 
   return (
@@ -57,7 +87,6 @@ export default function OtpVerificationScreen() {
             numberOfDigits={6}
             focusColor={colors.white}
             focusStickBlinkingDuration={500}
-            onTextChange={(text) => console.log(text)}
             onFilled={(text) => {
               onSubmitOtp(text);
             }}
@@ -76,12 +105,7 @@ export default function OtpVerificationScreen() {
             }}
           />
           <View style={{ flexDirection: "row", marginTop: 20 }}>
-            <TextButton
-              style={{ marginRight: 3 }}
-              onPress={() => {
-                console.log("asdasd");
-              }}
-            >
+            <TextButton style={{ marginRight: 3 }} onPress={() => {}}>
               <Text color={colors.inputPlaceholderColor}>Resend?</Text>
             </TextButton>
             <Text>(30s)</Text>

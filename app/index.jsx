@@ -1,9 +1,13 @@
+import { checkAuthStatus } from "@api/apis";
 import { ASYNC_STORAGE_KEYS } from "@constants/async-storage-keys";
 import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+
+import { useStore } from "./store";
 
 export default function RootScreen() {
   const [fontsLoaded] = useFonts({
@@ -12,31 +16,50 @@ export default function RootScreen() {
   });
   const isNavigationReady = useIsNavigationReady();
 
-  const [onboardingComplete, setOnboardingComplete] = useState(false);
+  const setUser = useStore((state) => state.setUser);
 
-  const checkOnboardingComplete = async () => {
-    const onboardingComplete = await AsyncStorage.getItem(
-      ASYNC_STORAGE_KEYS.ONBOARDING_COMPLETE
-    );
-    setOnboardingComplete(onboardingComplete === "TRUE");
+  const { isLoading, data, isError, isSuccess } = useQuery({
+    queryKey: "authStatus",
+    queryFn: checkAuthStatus,
+  });
+
+  const updateAccessTokenInAsyncStorage = (accessToken) => {
+    return AsyncStorage.setItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN, accessToken);
   };
 
   useEffect(() => {
-    if (!isNavigationReady) {
-      return;
-    }
+    const checkInitialConditions = async () => {
+      if (isLoading || !isNavigationReady || !fontsLoaded) return;
 
-    if (!fontsLoaded) {
-      return;
-    }
+      if (isError) {
+        router.push("screens/auth/sign-up");
+        return;
+      }
 
-    checkOnboardingComplete();
+      if (isSuccess) {
+        const user = data.user;
 
-    if (onboardingComplete) {
-      router.navigate("Home");
-    }
-    router.replace("screens/(tabs)");
-  }, [isNavigationReady, fontsLoaded, onboardingComplete]);
+        setUser(user);
+        await updateAccessTokenInAsyncStorage(data.accessToken);
+
+        if (user.phoneNumberVerified && user.methodFiVerified) {
+          router.replace("screens/(tabs)");
+        } else {
+          router.replace("screens/onboarding/method-onboarding");
+        }
+      }
+    };
+
+    checkInitialConditions();
+  }, [
+    isNavigationReady,
+    fontsLoaded,
+    isLoading,
+    isError,
+    isSuccess,
+    data,
+    setUser,
+  ]);
 
   return null;
 }
