@@ -10,4 +10,5 @@ export const API_ENDPOINTS = {
   ALL_LIABILITIES: "/api/liabilities",
   ALL_CREDIT_CARDS: "/api/liabilities/credit-cards",
   BANK_ACCOUNTS: "/api/user/bank-account",
+  PAYMENTS: "/api/payment",
 };
