@@ -16,6 +16,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import Toast from "react-native-toast-message";
 import { useMutation } from "react-query";
 
 export default function AddBankAccountScreen() {
@@ -43,9 +44,19 @@ export default function AddBankAccountScreen() {
     mutationKey: "createUserSourceBankAccount",
     mutationFn: (reqBody) => createUserSourceBankAccount(reqBody),
     onSuccess: () => {
+      Toast.show({
+        type: "success",
+        text1: "Bank account added",
+      });
       if (router.canGoBack()) {
         router.back();
       }
+    },
+    onError: () => {
+      Toast.show({
+        type: "error",
+        text1: "Failed to add bank account",
+      });
     },
   });
 
@@ -54,11 +65,10 @@ export default function AddBankAccountScreen() {
   };
 
   return (
-    <DarkSafeAreaView>
+    <DarkSafeAreaView setEdgeToTop>
       <KeyboardAvoidingView
         style={{
           padding: 15,
-          paddingBottom: 20,
           flex: 1,
           flexDirection: "column",
         }}
@@ -68,7 +78,11 @@ export default function AddBankAccountScreen() {
             Keyboard.dismiss();
           }}
         >
-          <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
             <Text
               size="2xl"
               style={{
@@ -195,7 +209,7 @@ export default function AddBankAccountScreen() {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Button style={{ marginTop: "auto" }} onPress={handleSubmit(onSubmit)}>
+        <Button onPress={handleSubmit(onSubmit)}>
           <Text>Add Account</Text>
         </Button>
       </KeyboardAvoidingView>

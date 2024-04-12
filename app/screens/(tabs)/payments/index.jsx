@@ -1,6 +1,7 @@
 import { fetchAllUserPayments } from "@api/payment-apis";
 import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
+import { Redirect } from "@components/Redirect";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
 import { verticalScale } from "@utils/scaling-utils";
@@ -14,6 +15,7 @@ export default function PaymentsScreen() {
     queryKey: "sourceBankAccounts",
     queryFn: fetchSourceBankAccounts,
     refetchOnMount: "always",
+    refetchOnWindowFocus: "always",
   });
 
   const noBankAccounts = !bankData?.length;
@@ -22,16 +24,11 @@ export default function PaymentsScreen() {
     queryKey: "allUserPayments",
     queryFn: fetchAllUserPayments,
     refetchOnMount: "always",
+    refetchOnWindowFocus: "always",
     enabled: noBankAccounts > 0,
   });
 
   const hasUserMadePayments = !paymentsData?.length;
-
-  const windowHeight = Dimensions.get("window").height;
-
-  const redirectToAddBankAccount = () => {
-    router.push("screens/user-account/add-bank-account");
-  };
 
   return (
     <DarkSafeAreaView>
@@ -44,31 +41,19 @@ export default function PaymentsScreen() {
         ) : (
           <View>
             {noBankAccounts ? (
-              <View
-                style={{
-                  flexDirection: "column",
-                  height: windowHeight - verticalScale(165),
-                }}
-              >
-                <View style={{ marginBottom: "auto" }}>
-                  <Text size="md" style={{ marginVertical: 10 }}>
-                    Add a bank account to start making payments
-                  </Text>
-                </View>
-
-                <Button
-                  style={{ marginVertical: 10 }}
-                  onPress={redirectToAddBankAccount}
-                >
-                  <Text>Add Bank Account</Text>
-                </Button>
-              </View>
+              <Redirect
+                text="Add a bank account to start making payments"
+                btnText="Add Bank Account"
+                redirectTo="screens/(tabs)/payments/add-bank-account"
+              />
             ) : (
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 {hasUserMadePayments ? (
-                  <Text size="md">
-                    Looks like you have not made any payments yet
-                  </Text>
+                  <Redirect
+                    text="Looks like you haven't made any payments yet"
+                    btnText="Pay Now"
+                    redirectTo="screens/(tabs)/payments/initiate-payment"
+                  />
                 ) : (
                   <Text>Here are your payments</Text>
                 )}

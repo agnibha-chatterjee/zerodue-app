@@ -62,7 +62,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="payments/index"
+        name="payments"
         options={{
           title: "Payments",
           tabBarIcon: ({ focused }) => (

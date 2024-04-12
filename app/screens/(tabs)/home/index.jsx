@@ -25,7 +25,7 @@ export default function HomeScreen() {
   const dueDate = dayjs().add(7, "day").format("MMM DD");
 
   return (
-    <DarkSafeAreaView forScrollView>
+    <DarkSafeAreaView setEdgeToTop>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
