@@ -5,16 +5,8 @@ import { API_ENDPOINTS } from "./api-routes";
 import { createApi } from "./create-api";
 import { HTTP_VERBS } from "./http-verbs";
 
-async function getAsyncStorageValue(key) {
-  try {
-    return AsyncStorage.getItem(key);
-  } catch (e) {
-    console.log("Error in getting key from async storage", e);
-  }
-}
-
 export const checkAuthStatus = async () => {
-  const token = await getAsyncStorageValue(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
+  const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   return createApi({
     endpoint: API_ENDPOINTS.AUTH_STATUS,
     method: HTTP_VERBS.GET,
@@ -38,8 +30,8 @@ export const verifyOtp = (reqBody) => {
   });
 };
 
-export const fetchMehodElementsToken = async () => {
-  const token = await getAsyncStorageValue(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
+export const fetchMethodElementsToken = async () => {
+  const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   return createApi({
     endpoint: API_ENDPOINTS.FETCH_METHOD_ELEMENTS_TOKEN,
     method: HTTP_VERBS.GET,
@@ -48,7 +40,7 @@ export const fetchMehodElementsToken = async () => {
 };
 
 export const completeMethodOnboarding = async () => {
-  const token = await getAsyncStorageValue(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
+  const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   return createApi({
     endpoint: API_ENDPOINTS.COMPLETE_METHOD_ONBOARDING,
     method: HTTP_VERBS.GET,

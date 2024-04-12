@@ -10,15 +10,15 @@ export const createApi = async ({
   token,
   body = {},
   enableLogging,
-  cookie,
+  cookie = undefined,
   headers = {},
   includeCredentials = true,
   enabled = true,
-} = {}) => {
+}) => {
   const reqHeaders = {
     "Content-Type": "application/json",
-    ...(token && { Authorization: `Bearer ${token}` }),
-    ...(cookie && { Cookie: cookie }),
+    ...(!isEmpty(token) && { Authorization: `Bearer ${token}` }),
+    ...(!isEmpty(cookie) && { Cookie: cookie }),
     ...(!isEmpty(headers) && { ...headers }),
   };
 

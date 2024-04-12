@@ -5,12 +5,21 @@ import { API_ENDPOINTS } from "./api-routes";
 import { createApi } from "./create-api";
 import { HTTP_VERBS } from "./http-verbs";
 
-export const fetchAllLiabilities = async () => {
+export const fetchSourceBankAccounts = async () => {
   const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   return createApi({
-    endpoint: API_ENDPOINTS.ALL_LIABILITIES,
+    endpoint: API_ENDPOINTS.BANK_ACCOUNTS,
     method: HTTP_VERBS.GET,
     token,
-    enableLogging: true,
+  });
+};
+
+export const createUserSourceBankAccount = async (reqBody) => {
+  const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
+  return createApi({
+    endpoint: API_ENDPOINTS.BANK_ACCOUNTS,
+    method: HTTP_VERBS.POST,
+    token,
+    body: reqBody,
   });
 };

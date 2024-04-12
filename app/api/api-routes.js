@@ -9,4 +9,5 @@ export const API_ENDPOINTS = {
   COMPLETE_METHOD_ONBOARDING: "/api/auth/method-onboarding-complete",
   ALL_LIABILITIES: "/api/liabilities",
   ALL_CREDIT_CARDS: "/api/liabilities/credit-cards",
+  BANK_ACCOUNTS: "/api/user/bank-account",
 };

@@ -23,10 +23,11 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
+          <Stack.Screen name="screens/(tabs)" />
           <Stack.Screen name="screens/auth/sign-up" />
           <Stack.Screen name="screens/auth/otp-verification" />
           <Stack.Screen name="screens/onboarding/method-onboarding" />
-          <Stack.Screen name="screens/(tabs)" />
+          <Stack.Screen name="screens/user-account/add-bank-account" />
         </Stack>
         <Toast />
       </SafeAreaProvider>

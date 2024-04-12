@@ -1,5 +1,5 @@
 import {
-  fetchMehodElementsToken,
+  fetchMethodElementsToken,
   completeMethodOnboarding,
 } from "@api/auth-api";
 import LoaderIcon from "@assets/icons/loader.svg";
@@ -20,7 +20,7 @@ export default function MethodOnboarding() {
 
   const { mutate: fetchElementsToken } = useMutation({
     mutationKey: "fetchMethodElementsToken",
-    mutationFn: fetchMehodElementsToken,
+    mutationFn: fetchMethodElementsToken,
     onSuccess: (data) => {
       setToken(data.elementToken);
     },

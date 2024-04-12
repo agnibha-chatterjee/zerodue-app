@@ -16,7 +16,7 @@ export default function HomeScreen() {
     queryFn: fetchAllLiabilities,
   });
 
-  const numberOfCards = data?.liabilties?.map(
+  const numberOfCards = data?.liabilities?.map(
     (liability) => liability["creditCard"]
   ).length;
 
