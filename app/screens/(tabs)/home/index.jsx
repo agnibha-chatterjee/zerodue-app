@@ -144,7 +144,10 @@ export default function HomeScreen() {
             <Text size="2xl" style={{ marginBottom: 10 }}>
               Cards
             </Text>
-            <CardsList isLoading={isLoading} />
+            <CardsList
+              isLoading={isLoading}
+              cards={data?.liabilities ?? [1, 2, 3, 4, 5]}
+            />
           </View>
         </View>
       </ScrollView>

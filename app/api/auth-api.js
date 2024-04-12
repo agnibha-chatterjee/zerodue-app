@@ -6,6 +6,7 @@ import { createApi } from "./create-api";
 import { HTTP_VERBS } from "./http-verbs";
 
 export const checkAuthStatus = async () => {
+  // await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
   return createApi({
     endpoint: API_ENDPOINTS.AUTH_STATUS,

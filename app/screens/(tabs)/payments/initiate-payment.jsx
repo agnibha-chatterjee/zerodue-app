@@ -1,16 +1,21 @@
+import { fetchAllLiabilities } from "@api/liabilities-api";
 import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { Redirect } from "@components/Redirect";
+import { Button } from "@components/button";
+import { TextButton } from "@components/button/text-btn";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
+import { scale, verticalScale } from "@utils/scaling-utils";
 import { Skeleton } from "moti/skeleton";
-import { ScrollView, View } from "react-native";
+import { useMemo, useState } from "react";
+import { ScrollView, View, Dimensions } from "react-native";
 import { useQuery } from "react-query";
 
 const paymentsText = (
   <Text size="2xl" style={{ marginBottom: 10 }}>
-    Payments
+    Payment Summary
   </Text>
 );
 
@@ -22,9 +27,26 @@ export default function InitiatePaymentScreen() {
     refetchOnWindowFocus: "always",
   });
 
+  const { data: liabilities, isLoading } = useQuery({
+    queryKey: "allLiabilities",
+    queryFn: fetchAllLiabilities,
+  });
+
+  const [selectedCards, setSelectedCards] = useState([]);
+
   const noBankAccounts = !bankData?.length;
 
   const firstBankAccount = bankData?.[0];
+
+  const cardsThatHaveDues = useMemo(() => {
+    if (!liabilities) {
+      return [];
+    }
+
+    return liabilities["liabilities"].filter(
+      (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
+    );
+  }, [liabilities]);
 
   if (bankDataLoading) {
     return (
@@ -65,17 +87,49 @@ export default function InitiatePaymentScreen() {
             }}
           >
             <Text size="md">Bank Account Info</Text>
-            <Text size="md">Bank Name: {firstBankAccount.friendlyName}</Text>
-            <Text size="md">Acc No: {firstBankAccount.accountNumber}</Text>
+            <Text size="md">
+              Friendly Name: {firstBankAccount.friendlyName}
+            </Text>
+            <Text size="md">
+              Account Number: {firstBankAccount.accountNumber}
+            </Text>
           </View>
           <View>
-            <Text size="2xl">Dues</Text>
+            <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+              <Text size="2xl" style={{ marginRight: "auto" }}>
+                Dues
+              </Text>
+              <TextButton
+                style={{ marginBottom: 7.5 }}
+                onPress={() => {
+                  setSelectedCards(["alaska", "chase", "bofa"]);
+                }}
+              >
+                <Text>Select All</Text>
+              </TextButton>
+            </View>
             <View style={{ height: "100%" }}>
-              <CardsList />
+              <CardsList
+                selectable
+                cards={cardsThatHaveDues}
+                onCardSelect={setSelectedCards}
+                selectedCards={selectedCards}
+              />
             </View>
           </View>
         </View>
       </ScrollView>
+      <Button
+        style={{
+          position: "absolute",
+          width: "90%",
+          marginLeft: "5%",
+          bottom: 0,
+          left: 0,
+        }}
+      >
+        <Text>Pay</Text>
+      </Button>
     </DarkSafeAreaView>
   );
 }
