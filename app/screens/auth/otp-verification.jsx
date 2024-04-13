@@ -81,7 +81,7 @@ export default function OtpVerificationScreen() {
               marginBottom: 20,
             }}
           >
-            Check your phone for a 5 digit code to verify your number.
+            Check your phone for a 6 digit code to verify your number.
           </Text>
           <OtpInput
             numberOfDigits={6}

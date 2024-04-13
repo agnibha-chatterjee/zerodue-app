@@ -9,4 +9,6 @@ export const colors = {
   transparent: "transparent",
   cardBg: "#2E2F34",
   yellow: "#FECB32",
+  rewardPointsContainerBorder: "#87e3e1",
+  rewardCardBg: "#2E2F34",
 };

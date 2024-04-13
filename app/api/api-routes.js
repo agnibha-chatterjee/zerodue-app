@@ -12,4 +12,5 @@ export const API_ENDPOINTS = {
   BANK_ACCOUNTS: "/api/user/bank-account",
   PAYMENTS: "/api/payment",
   INITIATE_PAYMENT: "/api/payment/initiate",
+  REWARDS: "/api/rewards",
 };

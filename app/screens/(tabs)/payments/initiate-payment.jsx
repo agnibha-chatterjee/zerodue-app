@@ -2,6 +2,7 @@ import { fetchAllLiabilities } from "@api/liabilities-api";
 import { initiatePayment } from "@api/payment-apis";
 import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
+import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { Redirect } from "@components/Redirect";
 import { Button } from "@components/button";
 import { CardsList } from "@components/cards-list";
@@ -40,6 +41,7 @@ export default function InitiatePaymentScreen() {
       Toast.show({
         type: "success",
         text1: "You are all set!",
+        text2: "The payment will be posted to your account within 48 hours",
       });
 
       router.push("screens/(tabs)/rewards");
@@ -88,14 +90,7 @@ export default function InitiatePaymentScreen() {
   };
 
   if (bankDataLoading) {
-    return (
-      <DarkSafeAreaView>
-        <View style={{ padding: 20 }}>
-          {paymentsText}
-          <Skeleton width="100%" height="95%" />
-        </View>
-      </DarkSafeAreaView>
-    );
+    return <FullScreenSkeletonLoader text="Payment Summary" />;
   }
 
   if (noBankAccounts) {
