@@ -8,6 +8,7 @@ import { Button } from "@components/button";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
+import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
 import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { useMemo, useState } from "react";
@@ -27,10 +28,16 @@ export default function InitiatePaymentScreen() {
     queryFn: fetchSourceBankAccounts,
   });
 
-  const { data: liabilities, isLoading: liabilitiesLoading } = useQuery({
+  const {
+    data: liabilities,
+    isLoading: liabilitiesLoading,
+    refetch,
+  } = useQuery({
     queryKey: "allLiabilities",
     queryFn: fetchAllLiabilities,
   });
+
+  useRefetchOnFocus(refetch);
 
   const { mutate } = useMutation({
     mutationKey: "initiatePayment",

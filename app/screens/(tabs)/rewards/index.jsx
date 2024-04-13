@@ -4,24 +4,29 @@ import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { TextButton } from "@components/button/text-btn";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
+import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
 import { nFormatter } from "@utils/common";
 import { useMemo } from "react";
 import { ScrollView, View } from "react-native";
 import { useQuery } from "react-query";
 
 export default function RewardsScreen() {
-  const { data: rewards, isLoading } = useQuery({
+  const {
+    data: rewards,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: "allUserRewards",
     queryFn: fetchAllUserRewards,
   });
+
+  useRefetchOnFocus(refetch);
 
   const totalPoints = useMemo(() => {
     if (!rewards?.length) return { value: "0", symbol: "" };
     const total = rewards.reduce((acc, reward) => acc + reward.points, 0);
     return nFormatter(total, 2);
   }, [rewards]);
-
-  console.log(totalPoints);
 
   if (isLoading) {
     return <FullScreenSkeletonLoader text="Rewards" />;

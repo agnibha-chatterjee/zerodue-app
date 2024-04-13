@@ -3,10 +3,13 @@ import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { Redirect } from "@components/Redirect";
+import { Button } from "@components/button";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
+import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
 import { FlashList } from "@shopify/flash-list";
 import dayjs from "dayjs";
+import { router } from "expo-router";
 import { View, ScrollView } from "react-native";
 import { useQuery } from "react-query";
 
@@ -24,12 +27,18 @@ export default function PaymentsScreen() {
 
   const noBankAccounts = !bankData?.length;
 
-  const { data: paymentsData, isLoading: paymentsDataLoading } = useQuery({
+  const {
+    data: paymentsData,
+    isLoading: paymentsDataLoading,
+    refetch,
+  } = useQuery({
     queryKey: "allUserPayments",
     queryFn: fetchAllUserPayments,
 
     enabled: noBankAccounts > 0,
   });
+
+  useRefetchOnFocus(refetch);
 
   const userHasNotMadePayments = !paymentsData?.length;
 
@@ -116,6 +125,21 @@ export default function PaymentsScreen() {
           </View>
         </View>
       </ScrollView>
+      <Button
+        style={{
+          position: "absolute",
+          width: "90%",
+          marginLeft: "5%",
+          bottom: 0,
+          left: 0,
+          marginBottom: 10,
+        }}
+        onPress={() => {
+          router.push("screens/(tabs)/payments/initiate-payment");
+        }}
+      >
+        <Text>Pay</Text>
+      </Button>
     </DarkSafeAreaView>
   );
 }
