@@ -1,17 +1,18 @@
 import { fetchAllLiabilities } from "@api/liabilities-api";
+import { initiatePayment } from "@api/payment-apis";
 import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { Redirect } from "@components/Redirect";
 import { Button } from "@components/button";
-import { TextButton } from "@components/button/text-btn";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
-import { scale, verticalScale } from "@utils/scaling-utils";
+import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { useMemo, useState } from "react";
-import { ScrollView, View, Dimensions } from "react-native";
-import { useQuery } from "react-query";
+import { ScrollView, View } from "react-native";
+import Toast from "react-native-toast-message";
+import { useMutation, useQuery } from "react-query";
 
 const paymentsText = (
   <Text size="2xl" style={{ marginBottom: 10 }}>
@@ -27,26 +28,64 @@ export default function InitiatePaymentScreen() {
     refetchOnWindowFocus: "always",
   });
 
-  const { data: liabilities, isLoading } = useQuery({
+  const { data: liabilities } = useQuery({
     queryKey: "allLiabilities",
     queryFn: fetchAllLiabilities,
   });
 
+  const { mutate } = useMutation({
+    mutationKey: "initiatePayment",
+    mutationFn: (reqBody) => initiatePayment(reqBody),
+    onSuccess: () => {
+      Toast.show({
+        type: "success",
+        text1: "You are all set!",
+      });
+
+      router.push("screens/(tabs)/rewards");
+    },
+    onError: () => {
+      Toast.show({
+        type: "error",
+        text1: "Payment failed! Please try again.",
+      });
+    },
+  });
+
   const [selectedCards, setSelectedCards] = useState([]);
-
   const noBankAccounts = !bankData?.length;
-
   const firstBankAccount = bankData?.[0];
 
   const cardsThatHaveDues = useMemo(() => {
     if (!liabilities) {
       return [];
     }
-
     return liabilities["liabilities"].filter(
       (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
     );
   }, [liabilities]);
+
+  const handlePay = () => {
+    if (!selectedCards.length) {
+      Toast.show({
+        type: "error",
+        text1: "No cards selected",
+      });
+      return;
+    }
+    const requestBody = selectedCards.map((card) => {
+      const c = cardsThatHaveDues.find((c) => c.id === card);
+      return {
+        cardId: c.id,
+        amount: c.nextPaymentMinimumAmount,
+        liabilityAccountId: c.liabilityAccountId,
+        source_account_id: firstBankAccount.accountId,
+        description: "crd pmt",
+      };
+    });
+
+    mutate(requestBody);
+  };
 
   if (bankDataLoading) {
     return (
@@ -86,12 +125,20 @@ export default function InitiatePaymentScreen() {
               padding: 20,
             }}
           >
-            <Text size="md">Bank Account Info</Text>
-            <Text size="md">
-              Friendly Name: {firstBankAccount.friendlyName}
+            <Text size="md" bold style={{ marginVertical: 3 }}>
+              Paying using
             </Text>
-            <Text size="md">
-              Account Number: {firstBankAccount.accountNumber}
+            <Text size="md" style={{ marginVertical: 3 }}>
+              Friendly Name:{" "}
+              <Text bold size="md">
+                {firstBankAccount.friendlyName}
+              </Text>
+            </Text>
+            <Text size="md" style={{ marginVertical: 3 }}>
+              Account Number:{" "}
+              <Text size="md" bold>
+                {firstBankAccount.accountNumber}
+              </Text>
             </Text>
           </View>
           <View>
@@ -99,14 +146,6 @@ export default function InitiatePaymentScreen() {
               <Text size="2xl" style={{ marginRight: "auto" }}>
                 Dues
               </Text>
-              <TextButton
-                style={{ marginBottom: 7.5 }}
-                onPress={() => {
-                  setSelectedCards(["alaska", "chase", "bofa"]);
-                }}
-              >
-                <Text>Select All</Text>
-              </TextButton>
             </View>
             <View style={{ height: "100%" }}>
               <CardsList
@@ -127,6 +166,7 @@ export default function InitiatePaymentScreen() {
           bottom: 0,
           left: 0,
         }}
+        onPress={handlePay}
       >
         <Text>Pay</Text>
       </Button>

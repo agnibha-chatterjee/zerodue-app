@@ -11,4 +11,5 @@ export const API_ENDPOINTS = {
   ALL_CREDIT_CARDS: "/api/liabilities/credit-cards",
   BANK_ACCOUNTS: "/api/user/bank-account",
   PAYMENTS: "/api/payment",
+  INITIATE_PAYMENT: "/api/payment/initiate",
 };

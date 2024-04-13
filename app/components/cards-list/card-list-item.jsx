@@ -43,11 +43,11 @@ export function CardListItem(props) {
 
   useEffect(() => {
     if (selected) {
-      onSelect((prevState) => [...prevState, item.name]);
+      onSelect((prevState) => [...prevState, item.id]);
     } else {
-      onSelect((prevState) => prevState.filter((card) => card !== item.name));
+      onSelect((prevState) => prevState.filter((card) => card !== item.id));
     }
-  }, [selected, onSelect, item.name]);
+  }, [selected, onSelect, item.id]);
 
   const handlePress = selectable
     ? () => {

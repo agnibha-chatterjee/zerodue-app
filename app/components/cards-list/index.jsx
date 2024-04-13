@@ -13,8 +13,6 @@ export function CardsList(props) {
     cards,
   } = props;
 
-  console.log(isLoading);
-
   return (
     <View style={{ height: "100%" }}>
       <FlashList

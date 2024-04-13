@@ -13,3 +13,13 @@ export const fetchAllUserPayments = async () => {
     token,
   });
 };
+
+export const initiatePayment = async (reqBody) => {
+  const token = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
+  return createApi({
+    endpoint: API_ENDPOINTS.INITIATE_PAYMENT,
+    method: HTTP_VERBS.POST,
+    token,
+    body: reqBody,
+  });
+};
