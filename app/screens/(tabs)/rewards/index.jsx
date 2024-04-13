@@ -21,6 +21,8 @@ export default function RewardsScreen() {
     return nFormatter(total, 2);
   }, [rewards]);
 
+  console.log(totalPoints);
+
   if (isLoading) {
     return <FullScreenSkeletonLoader text="Rewards" />;
   }
@@ -53,7 +55,7 @@ export default function RewardsScreen() {
             </View>
           </View>
 
-          {!!totalPoints.points && !!totalPoints.symbol ? (
+          {totalPoints.value !== "0" ? (
             <>
               <View
                 style={{
