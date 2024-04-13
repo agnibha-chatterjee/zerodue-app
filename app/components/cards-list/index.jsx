@@ -11,25 +11,27 @@ export function CardsList(props) {
     onCardSelect = () => {},
     selectedCards = [],
     cards,
+    hidePayButton = false,
   } = props;
 
   return (
     <View style={{ height: "100%" }}>
       <FlashList
         data={cards}
+        keyExtractor={(item) => (item.id ? item.id : item)}
         estimatedItemSize={10}
-        renderItem={({ item, index }) => {
+        renderItem={({ item }) => {
           return isLoading ? (
             <View style={{ marginVertical: 7.5 }}>
               <Skeleton width="100%" height={120} />
             </View>
           ) : (
             <CardListItem
-              key={index}
               item={item}
               selectable={selectable}
               onSelect={onCardSelect}
               selectedCards={selectedCards}
+              hidePayButton={hidePayButton}
             />
           );
         }}

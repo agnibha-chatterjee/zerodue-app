@@ -120,23 +120,17 @@ export default function InitiatePaymentScreen() {
               padding: 20,
             }}
           >
-            <Text size="md" bold style={{ marginVertical: 3 }}>
-              Paying using
+            <Text color={colors.yellow} bold style={{ marginVertical: 3 }}>
+              Paying from
             </Text>
-            <Text size="md" style={{ marginVertical: 3 }}>
-              Friendly Name:{" "}
-              <Text bold size="md">
-                {firstBankAccount.friendlyName}
-              </Text>
+            <Text style={{ marginVertical: 3 }}>
+              Friendly Name: <Text bold>{firstBankAccount.friendlyName}</Text>
             </Text>
-            <Text size="md" style={{ marginVertical: 3 }}>
-              Account Number:{" "}
-              <Text size="md" bold>
-                {firstBankAccount.accountNumber}
-              </Text>
+            <Text style={{ marginVertical: 3 }}>
+              Account Number: <Text bold>{firstBankAccount.accountNumber}</Text>
             </Text>
           </View>
-          <View>
+          <View style={{ marginTop: 20 }}>
             <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
               <Text size="2xl" style={{ marginRight: "auto" }}>
                 Dues
@@ -148,6 +142,7 @@ export default function InitiatePaymentScreen() {
                 cards={cardsThatHaveDues}
                 onCardSelect={setSelectedCards}
                 selectedCards={selectedCards}
+                hidePayButton
               />
             </View>
           </View>

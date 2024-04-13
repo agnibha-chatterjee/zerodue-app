@@ -4,8 +4,10 @@ import { Button } from "@components/button";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
+import { sampleArray } from "@constants/misc";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
+import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { ScrollView, View } from "react-native";
 import { useQuery } from "react-query";
@@ -23,6 +25,11 @@ export default function HomeScreen() {
   const amountOwed = data?.totalAmountOwed / 100 ?? 0;
 
   const dueDate = dayjs().add(7, "day").format("MMM DD");
+
+  const sampleCards = data?.liabilities?.slice(
+    0,
+    data?.liabilities?.length - 1
+  );
 
   return (
     <DarkSafeAreaView setEdgeToTop>
@@ -127,6 +134,10 @@ export default function HomeScreen() {
                     paddingVertical={0}
                     backgroundColor={colors.yellow}
                     style={{ width: 100, height: 35 }}
+                    disabled={amountOwed === 0}
+                    onPress={() => {
+                      router.push("screens/(tabs)/payments/initiate-payment");
+                    }}
                   >
                     <Text color={colors.black} bold>
                       Pay all
@@ -134,7 +145,9 @@ export default function HomeScreen() {
                   </Button>
                 </View>
                 <Text color={colors.inputPlaceholderColor}>
-                  Across {numberOfCards} cards, pay by {dueDate}
+                  {amountOwed > 1
+                    ? `Across ${numberOfCards} cards, pay by ${dueDate}`
+                    : "You're all set!"}
                 </Text>
               </View>
             )}
@@ -146,7 +159,7 @@ export default function HomeScreen() {
             </Text>
             <CardsList
               isLoading={isLoading}
-              cards={data?.liabilities ?? [1, 2, 3, 4, 5]}
+              cards={sampleCards ?? sampleArray}
             />
           </View>
         </View>

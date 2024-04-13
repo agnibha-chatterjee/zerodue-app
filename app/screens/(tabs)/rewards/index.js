@@ -16,7 +16,7 @@ export default function RewardsScreen() {
   });
 
   const totalPoints = useMemo(() => {
-    if (!rewards.length) return 0;
+    if (!rewards?.length) return 0;
     const total = rewards.reduce((acc, reward) => acc + reward.points, 0);
     return nFormatter(total, 2);
   }, [rewards]);
@@ -59,7 +59,7 @@ export default function RewardsScreen() {
                 style={{
                   marginTop: 20,
                   height: 120,
-                  backgroundColor: colors.rewardCardBg,
+                  backgroundColor: colors.cardBg,
                   padding: 20,
                   borderRadius: 8,
                   display: "flex",
@@ -90,7 +90,7 @@ export default function RewardsScreen() {
                 style={{
                   marginTop: 20,
                   height: 120,
-                  backgroundColor: colors.rewardCardBg,
+                  backgroundColor: colors.cardBg,
                   padding: 20,
                   borderRadius: 8,
                   display: "flex",
@@ -121,7 +121,7 @@ export default function RewardsScreen() {
                 style={{
                   marginTop: 20,
                   height: 120,
-                  backgroundColor: colors.rewardCardBg,
+                  backgroundColor: colors.cardBg,
                   padding: 20,
                   borderRadius: 8,
                   display: "flex",

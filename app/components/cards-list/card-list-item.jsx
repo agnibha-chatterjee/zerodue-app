@@ -6,12 +6,13 @@ import { gradients } from "@constants/gradients";
 import { Entypo } from "@expo/vector-icons";
 import { getCardIssuer } from "@utils/common";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { startCase } from "lodash";
 import { useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 
 export function CardListItem(props) {
-  const { item, selectable, onSelect, selectedCards } = props;
+  const { item, selectable, onSelect, selectedCards, hidePayButton } = props;
   const [selected, setSelected] = useState(selectedCards.includes(item.name));
   const [pressed, setPressed] = useState(false);
 
@@ -58,6 +59,10 @@ export function CardListItem(props) {
   const additionalProps = {
     onPressIn: () => setPressed(true),
     onPressOut: () => setPressed(false),
+  };
+
+  const handleRedirectToInitiatePayment = () => {
+    router.push("screens/(tabs)/payments/initiate-payment");
   };
 
   return (
@@ -108,18 +113,21 @@ export function CardListItem(props) {
           >
             Due on Apr 15, 2024
           </Text>
-          <IconButton
-            style={{ marginTop: 5, alignSelf: "flex-end" }}
-            IconEnd={() => (
-              <Entypo
-                name="chevron-small-right"
-                size={24}
-                color={colors.white}
-              />
-            )}
-          >
-            <Text style={{ textAlign: "right" }}>Pay Now</Text>
-          </IconButton>
+          {!hidePayButton && (
+            <IconButton
+              style={{ marginTop: 5, alignSelf: "flex-end" }}
+              onPress={handleRedirectToInitiatePayment}
+              IconEnd={() => (
+                <Entypo
+                  name="chevron-small-right"
+                  size={24}
+                  color={colors.white}
+                />
+              )}
+            >
+              <Text style={{ textAlign: "right" }}>Pay Now</Text>
+            </IconButton>
+          )}
         </View>
       </Component>
     </LinearGradient>
