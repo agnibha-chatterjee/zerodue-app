@@ -43,4 +43,8 @@ export const gradients = {
     from: "#003366",
     to: "#001A33",
   },
+  discountTire: {
+    from: "#D50032",
+    to: "#A20029",
+  },
 };

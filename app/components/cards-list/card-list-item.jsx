@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 
 export function CardListItem(props) {
-  const { item, selectable, onSelect, selectedCards, hidePayButton } = props;
+  const { item, selectable, onSelect, selectedCards } = props;
   const [selected, setSelected] = useState(selectedCards.includes(item.name));
   const [pressed, setPressed] = useState(false);
 
@@ -75,6 +75,7 @@ export function CardListItem(props) {
         marginVertical: 5,
         borderColor: colors.inputPlaceholderColor,
         borderWidth: selected ? 2 : 0,
+        height: 130,
       }}
     >
       <Component style={rootStyles} onPress={handlePress}>
@@ -113,7 +114,7 @@ export function CardListItem(props) {
           >
             Due on Apr 15, 2024
           </Text>
-          {!hidePayButton && (
+          {!!item.nextPaymentMinimumAmount && (
             <IconButton
               style={{ marginTop: 5, alignSelf: "flex-end" }}
               onPress={handleRedirectToInitiatePayment}

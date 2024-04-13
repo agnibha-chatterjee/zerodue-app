@@ -16,7 +16,7 @@ export default function RewardsScreen() {
   });
 
   const totalPoints = useMemo(() => {
-    if (!rewards?.length) return 0;
+    if (!rewards?.length) return { value: "0", symbol: "" };
     const total = rewards.reduce((acc, reward) => acc + reward.points, 0);
     return nFormatter(total, 2);
   }, [rewards]);
@@ -33,7 +33,7 @@ export default function RewardsScreen() {
       >
         <View style={{ padding: 20 }}>
           <Text size="2xl">Rewards</Text>
-          <View style={{ alignItems: "center", marginVertical: 20 }}>
+          <View style={{ alignItems: "center", marginVertical: 45 }}>
             <View
               style={{
                 borderColor: colors.rewardPointsContainerBorder,
@@ -53,7 +53,7 @@ export default function RewardsScreen() {
             </View>
           </View>
 
-          {!!totalPoints && (
+          {!!totalPoints.points && !!totalPoints.symbol ? (
             <>
               <View
                 style={{
@@ -149,6 +149,13 @@ export default function RewardsScreen() {
                 </TextButton>
               </View>
             </>
+          ) : (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Text size="lg" color={colors.inputPlaceholderColor}>
+                Head over to the payments table and make your first payment to
+                earn a reward
+              </Text>
+            </View>
           )}
         </View>
       </ScrollView>

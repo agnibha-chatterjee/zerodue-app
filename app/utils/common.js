@@ -26,7 +26,8 @@ export function getCardIssuer(cardName) {
 
   if (
     lowerCaseCardName.includes("wells") ||
-    lowerCaseCardName.includes("fargo")
+    lowerCaseCardName.includes("fargo") ||
+    lowerCaseCardName.includes("wells fargo")
   ) {
     return "wellsFargo";
   }
@@ -61,6 +62,14 @@ export function getCardIssuer(cardName) {
 
   if (lowerCaseCardName.includes("apple")) {
     return "apple";
+  }
+
+  if (
+    lowerCaseCardName.includes("discount") ||
+    lowerCaseCardName.includes("tire") ||
+    lowerCaseCardName.includes("discount tire")
+  ) {
+    return "discountTire";
   }
 
   return "visa";

@@ -9,6 +9,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
+import { useMemo } from "react";
 import { ScrollView, View } from "react-native";
 import { useQuery } from "react-query";
 
@@ -30,6 +31,15 @@ export default function HomeScreen() {
     0,
     data?.liabilities?.length - 1
   );
+
+  const cardsThatHaveDues = useMemo(() => {
+    if (!data?.liabilities) {
+      return [];
+    }
+    return data?.liabilities.filter(
+      (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
+    );
+  }, [data]);
 
   return (
     <DarkSafeAreaView setEdgeToTop>
@@ -146,7 +156,7 @@ export default function HomeScreen() {
                 </View>
                 <Text color={colors.inputPlaceholderColor}>
                   {amountOwed > 1
-                    ? `Across ${numberOfCards} cards, pay by ${dueDate}`
+                    ? `Across ${cardsThatHaveDues?.length} cards, pay by ${dueDate}`
                     : "You're all set!"}
                 </Text>
               </View>
@@ -159,7 +169,13 @@ export default function HomeScreen() {
             </Text>
             <CardsList
               isLoading={isLoading}
-              cards={sampleCards ?? sampleArray}
+              cards={
+                cardsThatHaveDues.length
+                  ? cardsThatHaveDues
+                  : sampleCards?.length
+                    ? sampleCards
+                    : sampleArray
+              }
             />
           </View>
         </View>

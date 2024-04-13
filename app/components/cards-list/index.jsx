@@ -11,7 +11,6 @@ export function CardsList(props) {
     onCardSelect = () => {},
     selectedCards = [],
     cards,
-    hidePayButton = false,
   } = props;
 
   return (
@@ -31,7 +30,6 @@ export function CardsList(props) {
               selectable={selectable}
               onSelect={onCardSelect}
               selectedCards={selectedCards}
-              hidePayButton={hidePayButton}
             />
           );
         }}
