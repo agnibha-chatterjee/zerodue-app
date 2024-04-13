@@ -20,8 +20,6 @@ export default function PaymentsScreen() {
   const { data: bankData, isLoading: bankDataLoading } = useQuery({
     queryKey: "sourceBankAccounts",
     queryFn: fetchSourceBankAccounts,
-    refetchOnMount: "always",
-    refetchOnWindowFocus: "always",
   });
 
   const noBankAccounts = !bankData?.length;
@@ -29,8 +27,7 @@ export default function PaymentsScreen() {
   const { data: paymentsData, isLoading: paymentsDataLoading } = useQuery({
     queryKey: "allUserPayments",
     queryFn: fetchAllUserPayments,
-    refetchOnMount: "always",
-    refetchOnWindowFocus: "always",
+
     enabled: noBankAccounts > 0,
   });
 
@@ -109,7 +106,7 @@ export default function PaymentsScreen() {
                         From: {item.sourceAccountName}
                       </Text>
                       <Text color={colors.inputPlaceholderColor}>
-                        To: **** 0000
+                        To: **** {item.cardMask}
                       </Text>
                     </View>
                   </View>

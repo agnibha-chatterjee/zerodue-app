@@ -90,7 +90,9 @@ export function CardListItem(props) {
             {...additionalProps}
           >
             <Text size="xxs">
-              {pressed ? splitCardNumber.join(" ") : `**** **** **** 0000`}
+              {pressed
+                ? splitCardNumber.join(" ")
+                : `**** **** **** ${item.mask}`}
             </Text>
           </TextButton>
         </View>

@@ -25,11 +25,9 @@ export default function InitiatePaymentScreen() {
   const { data: bankData, isLoading: bankDataLoading } = useQuery({
     queryKey: "sourceBankAccounts",
     queryFn: fetchSourceBankAccounts,
-    refetchOnMount: "always",
-    refetchOnWindowFocus: "always",
   });
 
-  const { data: liabilities } = useQuery({
+  const { data: liabilities, isLoading: liabilitiesLoading } = useQuery({
     queryKey: "allLiabilities",
     queryFn: fetchAllLiabilities,
   });
@@ -89,7 +87,7 @@ export default function InitiatePaymentScreen() {
     mutate(requestBody);
   };
 
-  if (bankDataLoading) {
+  if (bankDataLoading || liabilitiesLoading) {
     return <FullScreenSkeletonLoader text="Payment Summary" />;
   }
 

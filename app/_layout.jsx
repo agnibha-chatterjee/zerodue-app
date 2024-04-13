@@ -11,6 +11,9 @@ export default function RootLayout() {
     defaultOptions: {
       queries: {
         retry: false,
+        refetchOnMount: "always",
+        refetchOnReconnect: "always",
+        refetchOnWindowFocus: "always",
       },
       mutations: {
         retry: false,
