@@ -20,7 +20,11 @@ const paymentsText = (
 );
 
 export default function PaymentsScreen() {
-  const { data: bankData, isLoading: bankDataLoading } = useQuery({
+  const {
+    data: bankData,
+    isLoading: bankDataLoading,
+    refetch: refetchBankAccounts,
+  } = useQuery({
     queryKey: "sourceBankAccounts",
     queryFn: fetchSourceBankAccounts,
   });
@@ -38,6 +42,7 @@ export default function PaymentsScreen() {
     enabled: noBankAccounts > 0,
   });
 
+  useRefetchOnFocus(refetchBankAccounts);
   useRefetchOnFocus(refetch);
 
   const userHasNotMadePayments = !paymentsData?.length;
