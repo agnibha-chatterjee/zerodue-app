@@ -10,4 +10,7 @@ export const colors = {
   yellow: "#FECB32",
   rewardPointsContainerBorder: "#87E3E1",
   transparent: "transparent",
+  calendarDayTextColor: "#7E7F83",
+  orangeDot: "#FECB32",
+  lavenderDot: "#CE9ECE",
 };
