@@ -1,6 +1,6 @@
 import { calendarDots } from "@constants/calendar";
 import { getRandomItems } from "@utils/common";
-import { groupBy, sortBy } from "lodash";
+import { groupBy } from "lodash";
 
 export const getCardsThatAreDue = (cards) => {
   return cards.filter((card) => {
@@ -16,7 +16,7 @@ export const getSortedDueDates = (cardsThatHaveDues, dir = "asc") => {
 export const getMarkedDates = (cardsThatHaveDues) => {
   const groupedCards = groupBy(cardsThatHaveDues, "nextPaymentDueDate");
 
-  const markedDates = Object.keys(groupedCards).reduce((acc, date) => {
+  const markedDates = Object.keys(groupedCards).reduce((acc, date, index) => {
     const cardDetails = groupedCards[date];
 
     const noOfCards = cardDetails.length;

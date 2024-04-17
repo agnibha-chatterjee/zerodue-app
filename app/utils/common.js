@@ -80,10 +80,12 @@ export function numberWithCommas(x) {
 }
 
 export function getRandomItems(array, count) {
-  const tempArray = array.slice();
-  for (let i = tempArray.length - 1; i > 0; i--) {
+  const shuffledArray = array.slice();
+
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [tempArray[i], tempArray[j]] = [tempArray[j], tempArray[i]];
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
-  return tempArray.slice(0, count);
+
+  return shuffledArray.slice(0, count);
 }
