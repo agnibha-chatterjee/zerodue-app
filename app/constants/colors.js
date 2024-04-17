@@ -15,4 +15,6 @@ export const colors = {
   lavenderDot: "#CE9ECE",
   redDot: "#CF302A",
   todaysDateBg: "#699BF7",
+  bestValueCardsBg: "#383B40",
+  cashbackBg: "#016f47",
 };

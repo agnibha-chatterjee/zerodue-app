@@ -52,3 +52,9 @@ export const gradients = {
     to: "#699BF7",
   },
 };
+
+export const pointsGradients = {
+  chase: ["#4655D0", "#242C6A"],
+  amex: ["#91939A", "#7C7E84", "#383B40"],
+  bofa: ["#CD1F2F", "#A61421"],
+};

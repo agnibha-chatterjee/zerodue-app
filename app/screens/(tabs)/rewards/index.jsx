@@ -1,19 +1,60 @@
 import Logo from "@assets/icons/loader.svg";
+import BlueCashPrefferCard from "@assets/images/cards/blue-cash-preferred.png";
+import CitiCustomCard from "@assets/images/cards/citi-custom.png";
+import SapphirePreferredCard from "@assets/images/cards/sapphire-preferred-card.png";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
-import { TextButton } from "@components/button/text-btn";
+import { IconButton } from "@components/button/icon-btn";
 import { Text } from "@components/text";
+import { cardNameMapper } from "@constants/card-name-mapper";
 import { colors } from "@constants/colors";
-import { gradients } from "@constants/gradients";
+import { gradients, pointsGradients } from "@constants/gradients";
+import { Entypo } from "@expo/vector-icons";
 import { useAllUserRewards } from "@hooks/use-all-user-rewards";
 import { FlashList } from "@shopify/flash-list";
+import { numberWithCommas } from "@utils/common";
 import { scale, verticalScale } from "@utils/scaling-utils";
-import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
-import { ScrollView, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
+
+const pointsArr = [
+  {
+    name: "Chase",
+    points: 21000,
+  },
+  {
+    name: "AMEX",
+    points: 1800,
+  },
+  {
+    name: "Bank of America",
+    points: 13000,
+  },
+];
+
+const bestValueCards = [
+  {
+    name: "Groceries",
+    cardName: "American Express Blue Preferred Card",
+    cashback: "5% Cashback",
+    img: BlueCashPrefferCard,
+  },
+  {
+    name: "Travel",
+    cardName: "Chase Sapphire Preferred Card",
+    cashback: "5% Cashback",
+    img: SapphirePreferredCard,
+  },
+  {
+    name: "Gas",
+    cardName: "Citi Bank Custom Credit Card",
+    cashback: "5% Cashback",
+    img: CitiCustomCard,
+  },
+];
 
 export default function RewardsScreen() {
-  const { isLoading, totalPoints, rewards } = useAllUserRewards();
+  const { isLoading, totalPoints } = useAllUserRewards();
 
   if (isLoading) {
     return <FullScreenSkeletonLoader text="Rewards" />;
@@ -25,175 +66,208 @@ export default function RewardsScreen() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ padding: 20 }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text size="2xl" style={{ marginRight: "auto" }}>
+        <View style={styles.p20}>
+          <View style={styles.headerContainer}>
+            <Text size="2xl" style={styles.mrAuto}>
               Points
             </Text>
             <LinearGradient
               colors={[gradients.zPoints.from, gradients.zPoints.to]}
-              style={{
-                height: verticalScale(28),
-                borderRadius: "50%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                width: scale(110),
-                paddingStart: scale(10),
-                opacity: 0.8,
-                marginRight: scale(1.5),
-              }}
+              style={styles.gradient}
             >
-              <Text bold style={{ opacity: 1 }}>
-                52,395 pts
-              </Text>
+              <Text bold>{numberWithCommas(totalPoints)} pts</Text>
             </LinearGradient>
-            <Logo
-              height={verticalScale(28)}
-              style={{ position: "absolute", right: scale(-30) }}
+            <Logo height={verticalScale(28)} style={styles.logo} />
+          </View>
+          <View style={styles.existingCardPointsContainer}>
+            <FlashList
+              data={pointsArr}
+              horizontal
+              estimatedItemSize={5}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.name}
+              renderItem={({ item }) => {
+                const cardName = cardNameMapper[item.name];
+
+                return (
+                  <LinearGradient
+                    colors={pointsGradients[cardName]}
+                    style={styles.existingPointsCardGradient}
+                  >
+                    <Text size="md">{item.name}</Text>
+                    <Text bold size="2xl">
+                      {numberWithCommas(item.points)}
+                    </Text>
+                    <Text>available points</Text>
+                  </LinearGradient>
+                );
+              }}
             />
           </View>
-          <View style={{ alignItems: "center", marginVertical: 45 }}>
-            <View
-              style={{
-                borderColor: colors.rewardPointsContainerBorder,
-                borderWidth: 7,
-                alignItems: "center",
-                justifyContent: "center",
-                height: 200,
-                width: 200,
-                borderRadius: 100,
-              }}
-            >
-              <Text>
-                <Text size="3xl">{totalPoints.value}</Text>
-                <Text size="lg">{totalPoints.symbol}</Text>
+          <View style={styles.mt20}>
+            <View style={styles.cardRecommendationsContainer}>
+              <Text size="2xl" style={styles.mrAuto}>
+                Best Value
               </Text>
-              <Text size="md">Points</Text>
+              <IconButton
+                IconEnd={() => (
+                  <Entypo
+                    name="chevron-right"
+                    size={26}
+                    color={colors.inputPlaceholderColor}
+                  />
+                )}
+              >
+                <Text
+                  color={colors.inputPlaceholderColor}
+                  style={styles.mrn5}
+                  size="md"
+                >
+                  see all{" "}
+                </Text>
+              </IconButton>
+            </View>
+            <View style={styles.bestValueCardContainer}>
+              <FlashList
+                data={bestValueCards}
+                horizontal
+                estimatedItemSize={5}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item.name}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.bestValueCard}>
+                      <Image
+                        source={item.img}
+                        style={styles.bestValueCardImg}
+                      />
+                      <Text style={styles.mt5} bold size="xl">
+                        {item.name}
+                      </Text>
+                      <Text color={colors.inputPlaceholderColor}>
+                        {item.cardName}
+                      </Text>
+
+                      <View style={styles.cashbackChip}>
+                        <Text>{item.cashback}</Text>
+                      </View>
+                    </View>
+                  );
+                }}
+              />
             </View>
           </View>
-
-          {totalPoints.value !== "0" ? (
-            <>
-              <View
-                style={{
-                  marginTop: 20,
-                  height: 120,
-                  backgroundColor: colors.cardBg,
-                  padding: 20,
-                  borderRadius: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text bold size="md">
-                    NIKE
-                  </Text>
-                  <Text bold size="md">
-                    10% off
-                  </Text>
-                </View>
-
-                <TextButton style={{ marginTop: 25, alignSelf: "flex-end" }}>
-                  <Text style={{ textAlign: "right" }}>Redeem</Text>
-                </TextButton>
-              </View>
-              <View
-                style={{
-                  marginTop: 20,
-                  height: 120,
-                  backgroundColor: colors.cardBg,
-                  padding: 20,
-                  borderRadius: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text bold size="md">
-                    LYFT
-                  </Text>
-                  <Text bold size="md">
-                    10% off on 3 rides
-                  </Text>
-                </View>
-
-                <TextButton style={{ marginTop: 25, alignSelf: "flex-end" }}>
-                  <Text style={{ textAlign: "right" }}>Redeem</Text>
-                </TextButton>
-              </View>
-              <View style={{ marginTop: 20, height: "100%" }}>
-                <Text size="2xl">Activity</Text>
-                <FlashList
-                  estimatedItemSize={rewards?.length ?? 10}
-                  data={rewards}
-                  keyExtractor={(item) => item.rewardId}
-                  renderItem={({ item }) => {
-                    return (
-                      <View
-                        style={{
-                          padding: 20,
-                          height: 140,
-                          backgroundColor: colors.cardBg,
-                          marginVertical: 10,
-                          borderRadius: 8,
-                        }}
-                      >
-                        <Text color={colors.yellow} bold>
-                          On{" "}
-                          {dayjs(item.createdAt).format(
-                            "MMM DD, YYYY - h:mm a"
-                          )}
-                        </Text>
-                        <Text bold style={{ marginVertical: 5 }}>
-                          Amount paid: ${item.amount / 100}
-                        </Text>
-                        <Text bold style={{ marginVertical: 5 }}>
-                          Points earned: {item.points}
-                        </Text>
-                        <View
-                          style={{
-                            marginVertical: 5,
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Text color={colors.inputPlaceholderColor}>
-                            For: {item.rewardFor}
-                          </Text>
-                        </View>
-                      </View>
-                    );
-                  }}
-                />
-              </View>
-            </>
-          ) : (
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <Text size="lg" color={colors.inputPlaceholderColor}>
-                Head over to the payments table and make your first payment to
-                earn a reward
+          <View style={styles.mt20}>
+            <View style={styles.cardRecommendationsContainer}>
+              <Text size="2xl" style={styles.mrAuto}>
+                Rewards
               </Text>
+              <IconButton
+                IconEnd={() => (
+                  <Entypo
+                    name="chevron-right"
+                    size={26}
+                    color={colors.inputPlaceholderColor}
+                  />
+                )}
+              >
+                <Text
+                  color={colors.inputPlaceholderColor}
+                  style={styles.mrn5}
+                  size="md"
+                >
+                  see all{" "}
+                </Text>
+              </IconButton>
             </View>
-          )}
+            <View style={styles.cardRecommendationsList}>
+              <FlashList
+                data={pointsArr}
+                estimatedItemSize={5}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item.name}
+                renderItem={({ item }) => {
+                  const cardName = cardNameMapper[item.name];
+
+                  return (
+                    <LinearGradient
+                      colors={pointsGradients[cardName]}
+                      style={styles.existingPointsCardGradient}
+                    >
+                      <Text size="md">{item.name}</Text>
+                      <Text bold size="2xl">
+                        {numberWithCommas(item.points)}
+                      </Text>
+                      <Text>available points</Text>
+                    </LinearGradient>
+                  );
+                }}
+              />
+            </View>
+          </View>
         </View>
       </ScrollView>
     </DarkSafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: { flexDirection: "row", alignItems: "center" },
+  mrAuto: { marginRight: "auto" },
+  p20: { padding: 20 },
+  mt20: { marginTop: verticalScale(20) },
+  mt5: { marginTop: verticalScale(5) },
+  gradient: {
+    height: verticalScale(28),
+    borderRadius: "50%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: scale(110),
+    paddingStart: scale(10),
+    opacity: 0.8,
+    marginRight: scale(1.5),
+  },
+  logo: { position: "absolute", right: scale(-30) },
+  existingCardPointsContainer: {
+    height: verticalScale(110),
+    marginTop: verticalScale(20),
+  },
+  existingPointsCardGradient: {
+    padding: scale(20),
+    marginHorizontal: scale(5),
+    borderRadius: 8,
+    height: "100%",
+    width: scale(160),
+  },
+  cardRecommendationsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: verticalScale(10),
+  },
+  mrn5: { marginRight: scale(-5) },
+  cardRecommendationsList: { height: verticalScale(130) },
+  bestValueCardContainer: { height: verticalScale(200) },
+  bestValueCard: {
+    backgroundColor: colors.bestValueCardsBg,
+    marginHorizontal: scale(10),
+    padding: scale(15),
+    borderRadius: 8,
+    height: "100%",
+    width: scale(250),
+  },
+  bestValueCardImg: {
+    width: scale(150),
+    height: verticalScale(90),
+    resizeMode: "contain",
+    borderRadius: 15,
+  },
+  cashbackChip: {
+    width: scale(100),
+    borderRadius: "50%",
+    backgroundColor: colors.cashbackBg,
+    padding: scale(5),
+    alignItems: "center",
+    marginTop: verticalScale(7.5),
+  },
+});

@@ -1,5 +1,4 @@
 import { fetchAllUserRewards } from "@api/rewards-api";
-import { nFormatter } from "@utils/common";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 
@@ -18,9 +17,9 @@ export const useAllUserRewards = () => {
   useRefetchOnFocus(refetch);
 
   const totalPoints = useMemo(() => {
-    if (!rewards?.length) return { value: "0", symbol: "" };
+    if (!rewards?.length) return 0;
     const total = rewards.reduce((acc, reward) => acc + reward.points, 0);
-    return nFormatter(total, 2);
+    return total;
   }, [rewards]);
 
   return {
