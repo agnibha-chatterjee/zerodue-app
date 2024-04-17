@@ -7,6 +7,8 @@ import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { MethodFiDialog } from "@components/MethodFiDialog";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
+import { colors } from "@constants/colors";
+import { verticalScale } from "@utils/scaling-utils";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { View } from "react-native";
@@ -41,7 +43,7 @@ export default function MethodOnboarding() {
 
   const handleOnExitOrError = (payload) => {
     if (successRef.current) return;
-    console.error("Error in method onboarding", payload);
+    console.log("Error in method onboarding", payload);
     setToken(null);
     Toast.show({
       type: "error",
@@ -53,7 +55,12 @@ export default function MethodOnboarding() {
     return (
       <DarkSafeAreaView outsideTabNavigator>
         <View
-          style={{ flex: 1, flexDirection: "column", paddingHorizontal: 20 }}
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            paddingHorizontal: 20,
+            paddingTop: 20,
+          }}
         >
           <View
             style={{
@@ -65,7 +72,39 @@ export default function MethodOnboarding() {
           >
             <LoaderIcon />
           </View>
-
+          <Text
+            size="md"
+            bold
+            color={colors.inputPlaceholderColor}
+            style={{
+              textDecorationLine: "underline",
+            }}
+          >
+            Note
+          </Text>
+          <Text
+            size="md"
+            bold
+            style={{
+              marginVertical: verticalScale(5),
+            }}
+            color={colors.inputPlaceholderColor}
+          >
+            {`\u2022`} Zerodue uses Method Financial to fetch and connect your
+            credit cards.
+          </Text>
+          <Text
+            size="md"
+            bold
+            style={{
+              marginTop: verticalScale(5),
+              marginBottom: verticalScale(10),
+            }}
+            color={colors.inputPlaceholderColor}
+          >
+            {`\u2022`} This process will not affect your credit score or credit
+            limit.
+          </Text>
           <Button style={{ marginBottom: 25 }} onPress={fetchElementsToken}>
             <Text>Add cards</Text>
           </Button>
