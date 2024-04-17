@@ -1,34 +1,19 @@
-import { fetchAllUserRewards } from "@api/rewards-api";
+import Logo from "@assets/icons/loader.svg";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { TextButton } from "@components/button/text-btn";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
-import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
+import { gradients } from "@constants/gradients";
+import { useAllUserRewards } from "@hooks/use-all-user-rewards";
 import { FlashList } from "@shopify/flash-list";
-import { nFormatter } from "@utils/common";
+import { scale, verticalScale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
-import { useQuery } from "react-query";
 
 export default function RewardsScreen() {
-  const {
-    data: rewards,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: "allUserRewards",
-    queryFn: fetchAllUserRewards,
-  });
-
-  useRefetchOnFocus(refetch);
-
-  const totalPoints = useMemo(() => {
-    if (!rewards?.length) return { value: "0", symbol: "" };
-    const total = rewards.reduce((acc, reward) => acc + reward.points, 0);
-    return nFormatter(total, 2);
-  }, [rewards]);
+  const { isLoading, totalPoints, rewards } = useAllUserRewards();
 
   if (isLoading) {
     return <FullScreenSkeletonLoader text="Rewards" />;
@@ -41,7 +26,33 @@ export default function RewardsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={{ padding: 20 }}>
-          <Text size="2xl">Rewards</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text size="2xl" style={{ marginRight: "auto" }}>
+              Points
+            </Text>
+            <LinearGradient
+              colors={[gradients.zPoints.from, gradients.zPoints.to]}
+              style={{
+                height: verticalScale(28),
+                borderRadius: "50%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                width: scale(110),
+                paddingStart: scale(10),
+                opacity: 0.8,
+                marginRight: scale(1.5),
+              }}
+            >
+              <Text bold style={{ opacity: 1 }}>
+                52,395 pts
+              </Text>
+            </LinearGradient>
+            <Logo
+              height={verticalScale(28)}
+              style={{ position: "absolute", right: scale(-30) }}
+            />
+          </View>
           <View style={{ alignItems: "center", marginVertical: 45 }}>
             <View
               style={{

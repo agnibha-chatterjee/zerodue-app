@@ -47,4 +47,8 @@ export const gradients = {
     from: "#D50032",
     to: "#A20029",
   },
+  zPoints: {
+    from: "#FA75F8",
+    to: "#699BF7",
+  },
 };
