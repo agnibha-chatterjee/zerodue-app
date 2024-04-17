@@ -4,17 +4,16 @@ import { Button } from "@components/button";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
-import { sampleArray } from "@constants/misc";
 import { useAllLiabilities } from "@hooks/use-all-liabilities";
 import { getMarkedDates, getSortedDueDates } from "@utils/liability-utils";
+import { verticalScale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
 import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { ScrollView, View, StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  const { cardsThatHaveDues, isLoading, totalAmountOwed, sampleCards } =
-    useAllLiabilities();
+  const { cardsThatHaveDues, isLoading, totalAmountOwed } = useAllLiabilities();
 
   const { markedDates, markedDatesInfo } = getMarkedDates(cardsThatHaveDues);
   const sortedDueDates = getSortedDueDates(cardsThatHaveDues, "desc");
@@ -89,19 +88,24 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.mt15}>
-            <Text size="2xl" style={styles.mb10}>
-              Due Soon
-            </Text>
-            <CardsList
-              isLoading={isLoading}
-              cards={
-                cardsThatHaveDues.length
-                  ? cardsThatHaveDues
-                  : sampleCards?.length
-                    ? sampleCards
-                    : sampleArray
-              }
-            />
+            {cardsThatHaveDues.length ? (
+              <>
+                <Text size="2xl" style={styles.mb10}>
+                  Due Soon
+                </Text>
+                <CardsList isLoading={isLoading} cards={cardsThatHaveDues} />
+              </>
+            ) : (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: verticalScale(25),
+                }}
+              >
+                <Text size="xl">You're all caught up 🥳</Text>
+              </View>
+            )}
           </View>
         </View>
       </ScrollView>

@@ -5,7 +5,7 @@ import SapphirePreferredCard from "@assets/images/cards/sapphire-preferred-card.
 import AmazonLogo from "@assets/images/partners/amazon.png";
 import DoorDashLogo from "@assets/images/partners/doordash.png";
 import NikeLogo from "@assets/images/partners/nike.png";
-import WholeFoodsLogo from "@assets/images/partners/wholefoods.png";
+import WholeFoodsLogo from "@assets/images/partners/wholefoods.webp";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { IconButton } from "@components/button/icon-btn";

@@ -13,11 +13,6 @@ export const useAllLiabilities = () => {
 
   const totalAmountOwed = data?.totalAmountOwed / 100 ?? 0;
 
-  const sampleCards = data?.liabilities?.slice(
-    0,
-    data?.liabilities?.length - 1
-  );
-
   const cardsThatHaveDues = useMemo(() => {
     if (!data?.liabilities) {
       return [];
@@ -39,7 +34,6 @@ export const useAllLiabilities = () => {
   return {
     allLiabilities: data?.liabilities,
     totalAmountOwed,
-    sampleCards,
     isLoading,
     cardsThatHaveDues,
   };
