@@ -38,5 +38,5 @@ export const getMarkedDates = (cardsThatHaveDues) => {
     return acc;
   }, {});
 
-  return markedDates;
+  return { markedDates, markedDatesInfo: groupedCards };
 };

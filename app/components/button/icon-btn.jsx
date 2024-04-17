@@ -2,7 +2,7 @@ import { Pressable, View } from "react-native";
 
 export function IconButton(props) {
   const {
-    children,
+    children = null,
     backgroundColor,
     style,
     IconStart = null,

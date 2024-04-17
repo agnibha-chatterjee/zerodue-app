@@ -1,4 +1,6 @@
+import { daysOfTheWeek } from "@constants/calendar";
 import { colors } from "@constants/colors";
+import { AntDesign } from "@expo/vector-icons";
 import { scale, verticalScale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -7,14 +9,15 @@ import { Calendar as RNCalendar } from "react-native-calendars";
 
 import { DarkSafeAreaView } from "./DarkSafeAreaView";
 import { Button } from "./button";
+import { IconButton } from "./button/icon-btn";
+import { CardsList } from "./cards-list";
 import { Text } from "./text";
 
-const daysOfTheWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
 export function Calendar(props) {
-  const { markedDates = {} } = props;
+  const { markedDates = {}, markedDatesInfo = {} } = props;
 
-  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const cards = markedDatesInfo[selectedDate] ?? [];
 
   return (
     <>
@@ -26,7 +29,7 @@ export function Calendar(props) {
         onDayPress={(date) => {
           const { dateString } = date;
           if (!markedDates[dateString]) return;
-          setShowInfoModal(true);
+          setSelectedDate(dateString);
         }}
         markingType="multi-dot"
         customHeader={({ month }) => {
@@ -55,16 +58,36 @@ export function Calendar(props) {
         markedDates={markedDates}
       />
       <Modal
-        visible={showInfoModal}
+        visible={!!selectedDate}
         animationType="slide"
         style={{ height: 500, backgroundColor: colors.white }}
         presentationStyle="pageSheet"
       >
         <DarkSafeAreaView>
-          <Text>Agni</Text>
-          <Button onPress={() => setShowInfoModal(false)}>
-            <Text>Close Modal</Text>
-          </Button>
+          <View style={{ padding: 20 }}>
+            <View style={styles.modalHeaderContainer}>
+              <Text
+                size="2xl"
+                style={{
+                  marginRight: "auto",
+                }}
+              >
+                {dayjs(selectedDate).format("MMMM DD, YYYY")}
+              </Text>
+              <IconButton
+                onPress={() => setSelectedDate("")}
+                IconStart={() => (
+                  <AntDesign name="close" size={24} color={colors.white} />
+                )}
+              />
+            </View>
+            <CardsList cards={cards} />
+            <Button
+              title="Close"
+              onPress={() => setSelectedDate("")}
+              style={styles.ph5}
+            />
+          </View>
         </DarkSafeAreaView>
       </Modal>
     </>
@@ -83,5 +106,10 @@ const styles = StyleSheet.create({
   },
   br10: {
     borderRadius: 10,
+  },
+  modalHeaderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
   },
 });

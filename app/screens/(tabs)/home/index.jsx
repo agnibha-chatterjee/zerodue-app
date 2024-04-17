@@ -21,10 +21,8 @@ export default function HomeScreen() {
     sampleCards,
   } = useAllLiabilities();
 
-  const markedDates = getMarkedDates(cardsThatHaveDues);
+  const { markedDates, markedDatesInfo } = getMarkedDates(cardsThatHaveDues);
   const sortedDueDates = getSortedDueDates(cardsThatHaveDues, "desc");
-
-  console.log(sortedDueDates);
 
   return (
     <DarkSafeAreaView setEdgeToTop>
@@ -47,7 +45,10 @@ export default function HomeScreen() {
             {isLoading ? (
               <Skeleton width="100%" height={300} />
             ) : (
-              <Calendar markedDates={markedDates} />
+              <Calendar
+                markedDates={markedDates}
+                markedDatesInfo={markedDatesInfo}
+              />
             )}
           </View>
           <View
