@@ -20,7 +20,7 @@ export default function HomeScreen() {
   const sortedDueDates = getSortedDueDates(cardsThatHaveDues, "desc");
 
   return (
-    <DarkSafeAreaView setEdgeToTop>
+    <DarkSafeAreaView>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}

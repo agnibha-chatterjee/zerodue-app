@@ -135,6 +135,21 @@ export default function PaymentsScreen() {
           position: "absolute",
           width: "90%",
           marginLeft: "5%",
+          bottom: 50,
+          left: 0,
+          marginBottom: 10,
+        }}
+        onPress={() => {
+          router.push("screens/(tabs)/payments/payment-success");
+        }}
+      >
+        <Text>Payment Success</Text>
+      </Button>
+      <Button
+        style={{
+          position: "absolute",
+          width: "90%",
+          marginLeft: "5%",
           bottom: 0,
           left: 0,
           marginBottom: 10,

@@ -1,18 +1,22 @@
 import { colors } from "@constants/colors";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export function DarkSafeAreaView(props) {
-  const { children, setEdgeToTop, ...remainingProps } = props;
+export function DarkSafeAreaView({ children, ...rest } = {}) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
+        paddingTop: insets.top,
+        paddingBottom: 0,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
         backgroundColor: colors.blackBg,
       }}
-      edges={setEdgeToTop ? ["top"] : ["top", "bottom", "left", "right"]}
-      {...remainingProps}
     >
       {children}
-    </SafeAreaView>
+    </View>
   );
 }

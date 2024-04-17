@@ -17,4 +17,6 @@ export const colors = {
   todaysDateBg: "#699BF7",
   bestValueCardsBg: "#383B40",
   cashbackBg: "#016f47",
+  paymentSuccess: "#53EC74",
+  paymentSuccessBg: "#010101",
 };

@@ -98,7 +98,7 @@ export default function InitiatePaymentScreen() {
   }
 
   return (
-    <DarkSafeAreaView setEdgeToTop>
+    <DarkSafeAreaView>
       <ScrollView>
         <View style={{ padding: 20 }}>
           {paymentsText}

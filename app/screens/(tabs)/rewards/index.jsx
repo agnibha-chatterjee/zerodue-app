@@ -83,14 +83,12 @@ const fixedRewards = [
 export default function RewardsScreen() {
   const { isLoading, totalPoints, rewards } = useAllUserRewards();
 
-  console.log(rewards);
-
   if (isLoading) {
-    return <FullScreenSkeletonLoader text="Rewards" />;
+    return <FullScreenSkeletonLoader text="Points" />;
   }
 
   return (
-    <DarkSafeAreaView setEdgeToTop>
+    <DarkSafeAreaView>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

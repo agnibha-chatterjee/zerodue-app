@@ -9,7 +9,7 @@ export default function CardsScreen() {
   const { allLiabilities, isLoading } = useAllLiabilities();
 
   return (
-    <DarkSafeAreaView setEdgeToTop>
+    <DarkSafeAreaView>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

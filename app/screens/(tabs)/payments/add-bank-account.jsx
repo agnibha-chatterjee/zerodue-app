@@ -65,7 +65,7 @@ export default function AddBankAccountScreen() {
   };
 
   return (
-    <DarkSafeAreaView setEdgeToTop>
+    <DarkSafeAreaView>
       <KeyboardAvoidingView
         style={{
           padding: 15,
