@@ -81,7 +81,7 @@ export default function HomeScreen() {
                 </View>
                 <Text color={colors.inputPlaceholderColor}>
                   {totalAmountOwed > 1
-                    ? `Across ${cardsThatHaveDues?.length} cards, pay by ${dayjs(sortedDueDates[0]).format("MMMM DD")}`
+                    ? `Across ${cardsThatHaveDues.length} ${cardsThatHaveDues.length > 1 ? "cards" : "card"}, pay by ${dayjs(sortedDueDates[0]).format("MMMM DD")}`
                     : "You're all set!"}
                 </Text>
               </View>

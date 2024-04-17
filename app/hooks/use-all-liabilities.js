@@ -3,8 +3,10 @@ import { sortBy } from "lodash";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 
+import { useRefetchOnFocus } from "./common/use-refetch-on-focus";
+
 export const useAllLiabilities = () => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: "allLiabilities",
     queryFn: fetchAllLiabilities,
   });
@@ -31,6 +33,8 @@ export const useAllLiabilities = () => {
 
     return sortedCards;
   }, [data]);
+
+  useRefetchOnFocus(refetch);
 
   return {
     allLiabilities: data?.liabilities,

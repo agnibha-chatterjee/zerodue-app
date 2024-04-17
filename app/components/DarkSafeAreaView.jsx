@@ -2,7 +2,10 @@ import { colors } from "@constants/colors";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export function DarkSafeAreaView({ children, ...rest } = {}) {
+export function DarkSafeAreaView({
+  children,
+  outsideTabNavigator = false,
+} = {}) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -10,7 +13,7 @@ export function DarkSafeAreaView({ children, ...rest } = {}) {
       style={{
         flex: 1,
         paddingTop: insets.top,
-        paddingBottom: 0,
+        paddingBottom: outsideTabNavigator ? insets.bottom : 0,
         paddingLeft: insets.left,
         paddingRight: insets.right,
         backgroundColor: colors.blackBg,

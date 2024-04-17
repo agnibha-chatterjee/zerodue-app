@@ -51,7 +51,7 @@ export default function MethodOnboarding() {
 
   if (!token)
     return (
-      <DarkSafeAreaView>
+      <DarkSafeAreaView outsideTabNavigator>
         <View
           style={{ flex: 1, flexDirection: "column", paddingHorizontal: 20 }}
         >

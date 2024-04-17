@@ -59,7 +59,7 @@ export default function SignupScreen() {
   };
 
   return (
-    <DarkSafeAreaView>
+    <DarkSafeAreaView outsideTabNavigator>
       <KeyboardAvoidingView style={styles.container}>
         <TouchableWithoutFeedback
           onPress={() => {

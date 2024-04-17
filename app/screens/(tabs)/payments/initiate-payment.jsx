@@ -1,6 +1,4 @@
-import { fetchAllLiabilities } from "@api/liabilities-api";
 import { initiatePayment } from "@api/payment-apis";
-import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { Redirect } from "@components/Redirect";
@@ -8,14 +6,13 @@ import { Button } from "@components/button";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
-import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
+import { useAllBankAccounts } from "@hooks/use-all-bank-accounts";
 import { useAllLiabilities } from "@hooks/use-all-liabilities";
 import { router } from "expo-router";
-import { Skeleton } from "moti/skeleton";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 
 const paymentsText = (
   <Text size="2xl" style={{ marginBottom: 10 }}>
@@ -24,10 +21,8 @@ const paymentsText = (
 );
 
 export default function InitiatePaymentScreen() {
-  const { data: bankData, isLoading: bankDataLoading } = useQuery({
-    queryKey: "sourceBankAccounts",
-    queryFn: fetchSourceBankAccounts,
-  });
+  const { bankDataLoading, noBankAccounts, firstBankAccount } =
+    useAllBankAccounts();
 
   const { cardsThatHaveDues, isLoading: liabilitiesLoading } =
     useAllLiabilities();
@@ -38,11 +33,11 @@ export default function InitiatePaymentScreen() {
     onSuccess: () => {
       Toast.show({
         type: "success",
-        text1: "You are all set!",
+        text1: "Payment successful!",
         text2: "The payment will be posted to your account within 48 hours",
       });
 
-      router.push("screens/(tabs)/rewards");
+      router.push("screens/(tabs)/payments/payment-success");
     },
     onError: () => {
       Toast.show({
@@ -53,8 +48,6 @@ export default function InitiatePaymentScreen() {
   });
 
   const [selectedCards, setSelectedCards] = useState([]);
-  const noBankAccounts = !bankData?.length;
-  const firstBankAccount = bankData?.[0];
 
   const handlePay = () => {
     if (!selectedCards.length) {
@@ -110,7 +103,7 @@ export default function InitiatePaymentScreen() {
             }}
           >
             <Text color={colors.yellow} bold style={{ marginVertical: 3 }}>
-              Paying from
+              Paying using
             </Text>
             <Text style={{ marginVertical: 3 }}>
               Friendly Name: <Text bold>{firstBankAccount.friendlyName}</Text>

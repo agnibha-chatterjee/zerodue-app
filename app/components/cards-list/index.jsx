@@ -9,6 +9,7 @@ export function CardsList(props) {
     isLoading = false,
     selectable,
     onCardSelect = () => {},
+    beforeNavigate = () => {},
     selectedCards = [],
     cards,
   } = props;
@@ -30,6 +31,7 @@ export function CardsList(props) {
               selectable={selectable}
               onSelect={onCardSelect}
               selectedCards={selectedCards}
+              beforeNavigate={beforeNavigate}
             />
           );
         }}

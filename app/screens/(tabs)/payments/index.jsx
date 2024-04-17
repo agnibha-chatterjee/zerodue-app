@@ -1,17 +1,15 @@
-import { fetchAllUserPayments } from "@api/payment-apis";
-import { fetchSourceBankAccounts } from "@api/user-routes";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { Redirect } from "@components/Redirect";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
-import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
+import { useAllBankAccounts } from "@hooks/use-all-bank-accounts";
+import { useUserPayments } from "@hooks/use-user-payments";
 import { FlashList } from "@shopify/flash-list";
 import dayjs from "dayjs";
 import { router } from "expo-router";
 import { View, ScrollView } from "react-native";
-import { useQuery } from "react-query";
 
 const paymentsText = (
   <Text size="2xl" style={{ marginBottom: 10 }}>
@@ -20,32 +18,10 @@ const paymentsText = (
 );
 
 export default function PaymentsScreen() {
-  const {
-    data: bankData,
-    isLoading: bankDataLoading,
-    refetch: refetchBankAccounts,
-  } = useQuery({
-    queryKey: "sourceBankAccounts",
-    queryFn: fetchSourceBankAccounts,
-  });
+  const { bankDataLoading, noBankAccounts } = useAllBankAccounts();
 
-  const noBankAccounts = !bankData?.length;
-
-  const {
-    data: paymentsData,
-    isLoading: paymentsDataLoading,
-    refetch,
-  } = useQuery({
-    queryKey: "allUserPayments",
-    queryFn: fetchAllUserPayments,
-
-    enabled: noBankAccounts > 0,
-  });
-
-  useRefetchOnFocus(refetchBankAccounts);
-  useRefetchOnFocus(refetch);
-
-  const userHasNotMadePayments = !paymentsData?.length;
+  const { paymentsData, paymentsDataLoading, userHasNotMadePayments } =
+    useUserPayments(noBankAccounts);
 
   if (bankDataLoading || paymentsDataLoading) {
     return <FullScreenSkeletonLoader text="Payments" />;
@@ -83,7 +59,10 @@ export default function PaymentsScreen() {
 
   return (
     <DarkSafeAreaView>
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={{ padding: 20 }}>
           {paymentsText}
           <View style={{ height: "100%" }}>
@@ -130,21 +109,6 @@ export default function PaymentsScreen() {
           </View>
         </View>
       </ScrollView>
-      <Button
-        style={{
-          position: "absolute",
-          width: "90%",
-          marginLeft: "5%",
-          bottom: 50,
-          left: 0,
-          marginBottom: 10,
-        }}
-        onPress={() => {
-          router.push("screens/(tabs)/payments/payment-success");
-        }}
-      >
-        <Text>Payment Success</Text>
-      </Button>
       <Button
         style={{
           position: "absolute",

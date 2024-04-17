@@ -64,19 +64,19 @@ const fixedRewards = [
     partnerLogo: DoorDashLogo,
   },
   {
-    merchant: "Whole Foods",
-    reward: "30% cashback",
-    partnerLogo: WholeFoodsLogo,
-  },
-  {
     merchant: "Nike",
     reward: "$200 off",
     partnerLogo: NikeLogo,
   },
   {
     merchant: "Amazon",
-    reward: "Free Prime Membership",
+    reward: "Prime Membership for 3 months",
     partnerLogo: AmazonLogo,
+  },
+  {
+    merchant: "Whole Foods",
+    reward: "30% cashback",
+    partnerLogo: WholeFoodsLogo,
   },
 ];
 
@@ -208,7 +208,7 @@ export default function RewardsScreen() {
                   </Text>
                 </IconButton>
               </View>
-              <View style={styles.cardRecommendationsList}>
+              <View style={styles.h100}>
                 <FlashList
                   data={rewards}
                   estimatedItemSize={5}

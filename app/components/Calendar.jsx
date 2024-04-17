@@ -46,6 +46,10 @@ export function Calendar(props) {
   const { markedDates = {}, markedDatesInfo = {} } = props;
   const [selectedDate, setSelectedDate] = useState("");
   const cards = markedDatesInfo[selectedDate] ?? [];
+  const totalDue =
+    cards.reduce((acc, card) => acc + card.nextPaymentMinimumAmount, 0) / 100;
+
+  const noOfCards = cards.length;
 
   return (
     <>
@@ -82,35 +86,42 @@ export function Calendar(props) {
       <Modal
         visible={!!selectedDate}
         animationType="slide"
-        style={{ height: 500, backgroundColor: colors.white }}
         presentationStyle="pageSheet"
       >
-        <DarkSafeAreaView>
-          <View style={{ padding: 20 }}>
-            <View style={styles.modalHeaderContainer}>
-              <Text
-                size="2xl"
-                style={{
-                  marginRight: "auto",
-                }}
-              >
-                {dayjs(selectedDate).format("MMMM DD, YYYY")}
-              </Text>
-              <IconButton
-                onPress={() => setSelectedDate("")}
-                IconStart={() => (
-                  <AntDesign name="close" size={24} color={colors.white} />
-                )}
-              />
-            </View>
-            <CardsList cards={cards} />
-            <Button
-              title="Close"
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeaderContainer}>
+            <Text size="2xl" style={styles.mrAuto}>
+              {dayjs(selectedDate).format("MMMM DD, YYYY")}
+            </Text>
+            <IconButton
               onPress={() => setSelectedDate("")}
-              style={styles.ph5}
+              IconStart={() => (
+                <AntDesign name="close" size={24} color={colors.white} />
+              )}
             />
           </View>
-        </DarkSafeAreaView>
+          <Text
+            size="md"
+            color={colors.inputPlaceholderColor}
+            style={styles.summaryText}
+          >
+            A total of{" "}
+            <Text bold size="md" color={colors.inputPlaceholderColor}>
+              ${totalDue}
+            </Text>{" "}
+            is due across{" "}
+            <Text bold size="md" color={colors.inputPlaceholderColor}>
+              {noOfCards}
+            </Text>
+            {noOfCards > 1 ? " cards" : " card"}.
+          </Text>
+          <CardsList cards={cards} beforeNavigate={() => setSelectedDate("")} />
+          <Button
+            title="Close"
+            onPress={() => setSelectedDate("")}
+            style={styles.ph5}
+          />
+        </View>
       </Modal>
     </>
   );
@@ -129,9 +140,17 @@ const styles = StyleSheet.create({
   br10: {
     borderRadius: 10,
   },
+  modalContainer: { backgroundColor: colors.blackBg, padding: 20 },
   modalHeaderContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+  },
+  mrAuto: {
+    marginRight: "auto",
+  },
+  summaryText: {
+    marginTop: verticalScale(5),
+    marginBottom: verticalScale(10),
   },
 });

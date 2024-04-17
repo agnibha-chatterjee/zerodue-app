@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 
 export function CardListItem(props) {
-  const { item, selectable, onSelect, selectedCards } = props;
+  const { item, selectable, onSelect, selectedCards, beforeNavigate } = props;
   const [selected, setSelected] = useState(selectedCards.includes(item.name));
   const [pressed, setPressed] = useState(false);
 
@@ -63,6 +63,10 @@ export function CardListItem(props) {
   };
 
   const handleRedirectToInitiatePayment = () => {
+    if (beforeNavigate) {
+      beforeNavigate();
+    }
+
     router.push("screens/(tabs)/payments/initiate-payment");
   };
 

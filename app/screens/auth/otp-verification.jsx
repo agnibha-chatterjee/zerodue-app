@@ -51,7 +51,7 @@ export default function OtpVerificationScreen() {
   };
 
   return (
-    <DarkSafeAreaView>
+    <DarkSafeAreaView outsideTabNavigator>
       <TouchableWithoutFeedback
         onPress={() => {
           Keyboard.dismiss();
