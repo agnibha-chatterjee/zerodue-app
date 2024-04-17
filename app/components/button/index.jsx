@@ -1,5 +1,6 @@
 import { colors } from "@constants/colors";
-import { Pressable, StyleSheet } from "react-native";
+import { scale } from "@utils/scaling-utils";
+import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
 
 export function Button(props) {
   const {
@@ -10,6 +11,7 @@ export function Button(props) {
     marginVertical = 0,
     paddingVertical = 15,
     paddingHorizontal = 10,
+    isLoading = false,
     ...remainingProps
   } = props;
   return (
@@ -21,6 +23,7 @@ export function Button(props) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          flexDirection: "row",
           backgroundColor,
           marginHorizontal,
           marginVertical,
@@ -29,8 +32,15 @@ export function Button(props) {
         },
         style,
       ]}
+      disabled={isLoading}
       {...remainingProps}
     >
+      {isLoading ? (
+        <ActivityIndicator
+          color={colors.white}
+          style={{ marginRight: scale(5) }}
+        />
+      ) : null}
       {children}
     </Pressable>
   );

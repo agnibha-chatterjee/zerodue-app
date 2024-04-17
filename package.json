@@ -16,7 +16,7 @@
     "eas-cli": "eas",
     "eas-build-ios": "eas build --platform ios",
     "eas-build-android": "eas build --platform android",
-    "eas-build-android:preview": "eas build -p android --profile preview"
+    "eas-build-android:preview": "eas build --profile preview --platform android"
   },
   "dependencies": {
     "@expo/metro-config": "~0.17.1",
@@ -55,7 +55,8 @@
     "react-query": "^3.39.3",
     "snakecase-keys": "^8.0.0",
     "yup": "^1.4.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "expo-dev-client": "~3.3.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

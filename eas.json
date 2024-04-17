@@ -10,6 +10,9 @@
     "preview": {
       "developmentClient": true,
       "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_BACKEND_BASE_URL": "https://zerodue-backend.onrender.com"
+      },
       "android": {
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"

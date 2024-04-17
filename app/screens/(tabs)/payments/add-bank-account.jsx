@@ -40,7 +40,7 @@ export default function AddBankAccountScreen() {
     },
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationKey: "createUserSourceBankAccount",
     mutationFn: (reqBody) => createUserSourceBankAccount(reqBody),
     onSuccess: () => {
@@ -209,7 +209,7 @@ export default function AddBankAccountScreen() {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Button onPress={handleSubmit(onSubmit)}>
+        <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
           <Text>Add Account</Text>
         </Button>
       </KeyboardAvoidingView>

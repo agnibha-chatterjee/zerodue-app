@@ -36,7 +36,7 @@ export default function SignupScreen() {
     },
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationKey: "generateOtp",
     mutationFn: (reqBody) => generateOtp(reqBody),
     onSuccess: () => {
@@ -189,7 +189,11 @@ export default function SignupScreen() {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Button style={{ marginTop: "auto" }} onPress={handleSubmit(onSubmit)}>
+        <Button
+          style={{ marginTop: "auto" }}
+          onPress={handleSubmit(onSubmit)}
+          isLoading={isLoading}
+        >
           <Text>Sign up</Text>
         </Button>
       </KeyboardAvoidingView>

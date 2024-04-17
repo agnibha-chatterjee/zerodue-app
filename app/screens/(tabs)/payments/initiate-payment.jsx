@@ -27,7 +27,7 @@ export default function InitiatePaymentScreen() {
   const { cardsThatHaveDues, isLoading: liabilitiesLoading } =
     useAllLiabilities();
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationKey: "initiatePayment",
     mutationFn: (reqBody) => initiatePayment(reqBody),
     onSuccess: () => {
@@ -139,6 +139,7 @@ export default function InitiatePaymentScreen() {
           left: 0,
         }}
         onPress={handlePay}
+        isLoading={isLoading}
       >
         <Text>Pay</Text>
       </Button>

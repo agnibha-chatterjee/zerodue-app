@@ -20,7 +20,7 @@ export default function MethodOnboarding() {
 
   const successRef = useRef(false);
 
-  const { mutate: fetchElementsToken } = useMutation({
+  const { mutate: fetchElementsToken, isLoading } = useMutation({
     mutationKey: "fetchMethodElementsToken",
     mutationFn: fetchMethodElementsToken,
     onSuccess: (data) => {
@@ -105,7 +105,11 @@ export default function MethodOnboarding() {
             {`\u2022`} This process will not affect your credit score or credit
             limit.
           </Text>
-          <Button style={{ marginBottom: 25 }} onPress={fetchElementsToken}>
+          <Button
+            style={{ marginBottom: 25 }}
+            onPress={fetchElementsToken}
+            isLoading={isLoading}
+          >
             <Text>Add cards</Text>
           </Button>
         </View>
