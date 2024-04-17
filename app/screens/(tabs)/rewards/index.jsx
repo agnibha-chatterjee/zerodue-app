@@ -2,6 +2,10 @@ import Logo from "@assets/icons/loader.svg";
 import BlueCashPrefferCard from "@assets/images/cards/blue-cash-preferred.png";
 import CitiCustomCard from "@assets/images/cards/citi-custom.png";
 import SapphirePreferredCard from "@assets/images/cards/sapphire-preferred-card.png";
+import AmazonLogo from "@assets/images/partners/amazon.png";
+import DoorDashLogo from "@assets/images/partners/doordash.png";
+import NikeLogo from "@assets/images/partners/nike.png";
+import WholeFoodsLogo from "@assets/images/partners/wholefoods.png";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { FullScreenSkeletonLoader } from "@components/FullScreenSkeletonLoader";
 import { IconButton } from "@components/button/icon-btn";
@@ -9,7 +13,7 @@ import { Text } from "@components/text";
 import { cardNameMapper } from "@constants/card-name-mapper";
 import { colors } from "@constants/colors";
 import { gradients, pointsGradients } from "@constants/gradients";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, EvilIcons } from "@expo/vector-icons";
 import { useAllUserRewards } from "@hooks/use-all-user-rewards";
 import { FlashList } from "@shopify/flash-list";
 import { numberWithCommas } from "@utils/common";
@@ -48,13 +52,38 @@ const bestValueCards = [
   {
     name: "Gas",
     cardName: "Citi Bank Custom Credit Card",
-    cashback: "5% Cashback",
+    cashback: "6% Cashback",
     img: CitiCustomCard,
   },
 ];
 
+const fixedRewards = [
+  {
+    merchant: "DoorDash",
+    reward: "10% off",
+    partnerLogo: DoorDashLogo,
+  },
+  {
+    merchant: "Whole Foods",
+    reward: "30% cashback",
+    partnerLogo: WholeFoodsLogo,
+  },
+  {
+    merchant: "Nike",
+    reward: "$200 off",
+    partnerLogo: NikeLogo,
+  },
+  {
+    merchant: "Amazon",
+    reward: "Free Prime Membership",
+    partnerLogo: AmazonLogo,
+  },
+];
+
 export default function RewardsScreen() {
-  const { isLoading, totalPoints } = useAllUserRewards();
+  const { isLoading, totalPoints, rewards } = useAllUserRewards();
+
+  console.log(rewards);
 
   if (isLoading) {
     return <FullScreenSkeletonLoader text="Rewards" />;
@@ -157,54 +186,64 @@ export default function RewardsScreen() {
               />
             </View>
           </View>
-          <View style={styles.mt20}>
-            <View style={styles.cardRecommendationsContainer}>
-              <Text size="2xl" style={styles.mrAuto}>
-                Rewards
-              </Text>
-              <IconButton
-                IconEnd={() => (
-                  <Entypo
-                    name="chevron-right"
-                    size={26}
-                    color={colors.inputPlaceholderColor}
-                  />
-                )}
-              >
-                <Text
-                  color={colors.inputPlaceholderColor}
-                  style={styles.mrn5}
-                  size="md"
-                >
-                  see all{" "}
+          {!rewards.length ? null : (
+            <View style={[styles.mt20, styles.h100]}>
+              <View style={styles.cardRecommendationsContainer}>
+                <Text size="2xl" style={styles.mrAuto}>
+                  Rewards
                 </Text>
-              </IconButton>
+                <IconButton
+                  IconEnd={() => (
+                    <Entypo
+                      name="chevron-right"
+                      size={26}
+                      color={colors.inputPlaceholderColor}
+                    />
+                  )}
+                >
+                  <Text
+                    color={colors.inputPlaceholderColor}
+                    style={styles.mrn5}
+                    size="md"
+                  >
+                    see all{" "}
+                  </Text>
+                </IconButton>
+              </View>
+              <View style={styles.cardRecommendationsList}>
+                <FlashList
+                  data={rewards}
+                  estimatedItemSize={5}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.rewardId}
+                  renderItem={({ item, index }) => {
+                    const reward = fixedRewards[index];
+                    return (
+                      <View style={styles.rewardCard}>
+                        <View style={styles.rewardSubContainer}>
+                          <Image
+                            source={reward.partnerLogo}
+                            style={styles.partnerLogo}
+                          />
+                          <View>
+                            <Text bold>{reward.reward}</Text>
+                            <Text color={colors.inputPlaceholderColor}>
+                              {item.rewardFor}
+                            </Text>
+                          </View>
+                        </View>
+                        <EvilIcons
+                          name="chevron-right"
+                          size={36}
+                          color={colors.white}
+                        />
+                      </View>
+                    );
+                  }}
+                />
+              </View>
             </View>
-            <View style={styles.cardRecommendationsList}>
-              <FlashList
-                data={pointsArr}
-                estimatedItemSize={5}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.name}
-                renderItem={({ item }) => {
-                  const cardName = cardNameMapper[item.name];
-
-                  return (
-                    <LinearGradient
-                      colors={pointsGradients[cardName]}
-                      style={styles.existingPointsCardGradient}
-                    >
-                      <Text size="md">{item.name}</Text>
-                      <Text bold size="2xl">
-                        {numberWithCommas(item.points)}
-                      </Text>
-                      <Text>available points</Text>
-                    </LinearGradient>
-                  );
-                }}
-              />
-            </View>
-          </View>
+          )}
         </View>
       </ScrollView>
     </DarkSafeAreaView>
@@ -215,6 +254,7 @@ const styles = StyleSheet.create({
   headerContainer: { flexDirection: "row", alignItems: "center" },
   mrAuto: { marginRight: "auto" },
   p20: { padding: 20 },
+  h100: { height: "100%" },
   mt20: { marginTop: verticalScale(20) },
   mt5: { marginTop: verticalScale(5) },
   gradient: {
@@ -270,4 +310,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: verticalScale(7.5),
   },
+  partnerLogo: {
+    width: scale(50),
+    height: scale(50),
+    borderRadius: scale(25),
+    marginRight: scale(10),
+  },
+  rewardCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: scale(5),
+  },
+  rewardSubContainer: { flexDirection: "row", alignItems: "center" },
 });

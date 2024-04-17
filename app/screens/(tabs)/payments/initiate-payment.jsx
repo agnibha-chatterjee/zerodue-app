@@ -9,6 +9,7 @@ import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
 import { useRefetchOnFocus } from "@hooks/common/use-refetch-on-focus";
+import { useAllLiabilities } from "@hooks/use-all-liabilities";
 import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { useMemo, useState } from "react";
@@ -28,16 +29,8 @@ export default function InitiatePaymentScreen() {
     queryFn: fetchSourceBankAccounts,
   });
 
-  const {
-    data: liabilities,
-    isLoading: liabilitiesLoading,
-    refetch,
-  } = useQuery({
-    queryKey: "allLiabilities",
-    queryFn: fetchAllLiabilities,
-  });
-
-  useRefetchOnFocus(refetch);
+  const { cardsThatHaveDues, isLoading: liabilitiesLoading } =
+    useAllLiabilities();
 
   const { mutate } = useMutation({
     mutationKey: "initiatePayment",
@@ -62,15 +55,6 @@ export default function InitiatePaymentScreen() {
   const [selectedCards, setSelectedCards] = useState([]);
   const noBankAccounts = !bankData?.length;
   const firstBankAccount = bankData?.[0];
-
-  const cardsThatHaveDues = useMemo(() => {
-    if (!liabilities) {
-      return [];
-    }
-    return liabilities["liabilities"].filter(
-      (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
-    );
-  }, [liabilities]);
 
   const handlePay = () => {
     if (!selectedCards.length) {
