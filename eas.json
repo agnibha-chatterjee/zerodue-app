@@ -10,11 +10,7 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {
-      "env": {
-        "EXPO_PUBLIC_BACKEND_BASE_URL": "https://zerodue-backend.onrender.com"
-      }
-    }
+    "production": {}
   },
   "submit": {
     "production": {}
