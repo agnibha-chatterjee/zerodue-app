@@ -15,7 +15,6 @@ import { Text } from "./text";
 
 export function Calendar(props) {
   const { markedDates = {}, markedDatesInfo = {} } = props;
-
   const [selectedDate, setSelectedDate] = useState("");
   const cards = markedDatesInfo[selectedDate] ?? [];
 

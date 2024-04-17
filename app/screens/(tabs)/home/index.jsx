@@ -13,13 +13,8 @@ import { Skeleton } from "moti/skeleton";
 import { ScrollView, View, StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  const {
-    allLiabilities,
-    cardsThatHaveDues,
-    isLoading,
-    totalAmountOwed,
-    sampleCards,
-  } = useAllLiabilities();
+  const { cardsThatHaveDues, isLoading, totalAmountOwed, sampleCards } =
+    useAllLiabilities();
 
   const { markedDates, markedDatesInfo } = getMarkedDates(cardsThatHaveDues);
   const sortedDueDates = getSortedDueDates(cardsThatHaveDues, "desc");

@@ -1,4 +1,5 @@
 import { fetchAllLiabilities } from "@api/liabilities-api";
+import { sortBy } from "lodash";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 
@@ -19,9 +20,16 @@ export const useAllLiabilities = () => {
     if (!data?.liabilities) {
       return [];
     }
-    return data?.liabilities.filter(
+    const cardsWithLiabilities = data?.liabilities.filter(
       (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
     );
+
+    const sortedCards = sortBy(
+      cardsWithLiabilities,
+      (card) => new Date(card.nextPaymentDueDate)
+    );
+
+    return sortedCards;
   }, [data]);
 
   return {

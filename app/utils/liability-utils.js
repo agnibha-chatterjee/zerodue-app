@@ -8,18 +8,9 @@ export const getCardsThatAreDue = (cards) => {
   });
 };
 
-export const getSortedDueDates = (cardsThatAreDue, dir = "asc") => {
-  const dueDates = cardsThatAreDue.map(
-    (card) => new Date(card.nextPaymentDueDate)
-  );
-  const sortedDates = sortBy(dueDates);
-
-  const justDates = sortedDates.map((date) => {
-    const isoString = date.toISOString();
-    return isoString.split("T")[0];
-  });
-
-  return dir === "asc" ? justDates : justDates.reverse();
+export const getSortedDueDates = (cardsThatHaveDues, dir = "asc") => {
+  const dates = cardsThatHaveDues.map((card) => card.nextPaymentDueDate);
+  return dir === "asc" ? dates : dates.reverse();
 };
 
 export const getMarkedDates = (cardsThatHaveDues) => {

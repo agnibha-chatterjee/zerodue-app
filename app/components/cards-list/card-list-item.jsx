@@ -5,6 +5,7 @@ import { colors } from "@constants/colors";
 import { gradients } from "@constants/gradients";
 import { Entypo } from "@expo/vector-icons";
 import { getCardIssuer } from "@utils/common";
+import dayjs from "dayjs";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { startCase } from "lodash";
@@ -114,7 +115,7 @@ export function CardListItem(props) {
             style={{ marginVertical: 5, textAlign: "right" }}
             color={colors.inputPlaceholderColor}
           >
-            Due on Apr 15, 2024
+            Due on {dayjs(item.nextPaymentDueDate).format("MMM DD, YYYY")}
           </Text>
           {!!item.nextPaymentMinimumAmount && (
             <IconButton
