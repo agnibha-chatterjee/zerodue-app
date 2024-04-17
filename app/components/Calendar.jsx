@@ -4,20 +4,15 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { View, StyleSheet, Modal } from "react-native";
 import { Calendar as RNCalendar } from "react-native-calendars";
-import BasicDay from "react-native-calendars/src/calendar/day/basic";
-import Tooltip from "react-native-walkthrough-tooltip";
 
+import { DarkSafeAreaView } from "./DarkSafeAreaView";
 import { Button } from "./button";
 import { Text } from "./text";
 
-const orangeDot = { key: "orangeDot", color: colors.orangeDot };
-const lavenderDot = {
-  key: "lavenderDot",
-  color: colors.lavenderDot,
-};
+const daysOfTheWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-export function Calendar() {
-  const daysOfTheWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+export function Calendar(props) {
+  const { markedDates = {} } = props;
 
   const [showInfoModal, setShowInfoModal] = useState(false);
 
@@ -27,8 +22,12 @@ export function Calendar() {
         disableMonthChange
         renderArrow={() => null}
         hideExtraDays
-        style={{ borderRadius: 10 }}
-        onDayPress={() => setShowInfoModal(true)}
+        style={styles.br10}
+        onDayPress={(date) => {
+          const { dateString } = date;
+          if (!markedDates[dateString]) return;
+          setShowInfoModal(true);
+        }}
         markingType="multi-dot"
         customHeader={({ month }) => {
           return (
@@ -53,11 +52,7 @@ export function Calendar() {
           backgroundColor: colors.transparent,
           textDayFontFamily: "SF-Pro-Display-Regular",
         }}
-        markedDates={{
-          "2024-04-20": { marked: true, dots: [orangeDot, lavenderDot] },
-          "2024-04-21": { marked: true, dots: [lavenderDot] },
-          "2024-04-22": { marked: true, dots: [orangeDot] },
-        }}
+        markedDates={markedDates}
       />
       <Modal
         visible={showInfoModal}
@@ -65,12 +60,12 @@ export function Calendar() {
         style={{ height: 500, backgroundColor: colors.white }}
         presentationStyle="pageSheet"
       >
-        <View>
+        <DarkSafeAreaView>
           <Text>Agni</Text>
           <Button onPress={() => setShowInfoModal(false)}>
             <Text>Close Modal</Text>
           </Button>
-        </View>
+        </DarkSafeAreaView>
       </Modal>
     </>
   );
@@ -85,5 +80,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginVertical: verticalScale(10),
+  },
+  br10: {
+    borderRadius: 10,
   },
 });

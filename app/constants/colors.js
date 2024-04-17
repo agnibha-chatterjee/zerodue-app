@@ -13,4 +13,5 @@ export const colors = {
   calendarDayTextColor: "#7E7F83",
   orangeDot: "#FECB32",
   lavenderDot: "#CE9ECE",
+  redDot: "#CF302A",
 };

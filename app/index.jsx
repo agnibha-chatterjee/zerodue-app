@@ -2,12 +2,16 @@ import { checkAuthStatus } from "@api/auth-api";
 import { ASYNC_STORAGE_KEYS } from "@constants/async-storage-keys";
 import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import dayjs from "dayjs";
+import utc from "dayjs-plugin-utc";
 import { useFonts } from "expo-font";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 
 import { useStore } from "./store";
+
+dayjs.extend(utc);
 
 export default function RootScreen() {
   const [fontsLoaded] = useFonts({

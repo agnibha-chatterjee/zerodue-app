@@ -1,4 +1,3 @@
-import { fetchAllLiabilities } from "@api/liabilities-api";
 import { Calendar } from "@components/Calendar";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { Button } from "@components/button";
@@ -6,37 +5,26 @@ import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
 import { sampleArray } from "@constants/misc";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useAllLiabilities } from "@hooks/use-all-liabilities";
+import { getMarkedDates, getSortedDueDates } from "@utils/liability-utils";
 import dayjs from "dayjs";
 import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
-import { useMemo } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
-import { useQuery } from "react-query";
 
 export default function HomeScreen() {
-  const { data, isLoading } = useQuery({
-    queryKey: "allLiabilities",
-    queryFn: fetchAllLiabilities,
-  });
+  const {
+    allLiabilities,
+    cardsThatHaveDues,
+    isLoading,
+    totalAmountOwed,
+    sampleCards,
+  } = useAllLiabilities();
 
-  const amountOwed = data?.totalAmountOwed / 100 ?? 0;
+  const markedDates = getMarkedDates(cardsThatHaveDues);
+  const sortedDueDates = getSortedDueDates(cardsThatHaveDues, "desc");
 
-  const dueDate = dayjs().add(7, "day").format("MMM DD");
-
-  const sampleCards = data?.liabilities?.slice(
-    0,
-    data?.liabilities?.length - 1
-  );
-
-  const cardsThatHaveDues = useMemo(() => {
-    if (!data?.liabilities) {
-      return [];
-    }
-    return data?.liabilities.filter(
-      (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
-    );
-  }, [data]);
+  console.log(sortedDueDates);
 
   return (
     <DarkSafeAreaView setEdgeToTop>
@@ -45,15 +33,6 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.p20}>
-          <View
-            style={{
-              padding: 10,
-              backgroundColor: colors.cardBg,
-              borderRadius: 10,
-            }}
-          >
-            <Calendar />
-          </View>
           <Text size="2xl" style={styles.mb15}>
             Upcoming Dues
           </Text>
@@ -66,29 +45,9 @@ export default function HomeScreen() {
             ]}
           >
             {isLoading ? (
-              <Skeleton width="100%" height={150} />
+              <Skeleton width="100%" height={300} />
             ) : (
-              <View>
-                <View style={styles.dueDateCardContainer}>
-                  <MaterialCommunityIcons
-                    name="repeat-variant"
-                    size={28}
-                    color={colors.white}
-                    style={styles.mr5}
-                  />
-                  <Text bold>One billing date, for all your cards</Text>
-                </View>
-                <Text style={{ paddingHorizontal: 5 }}>
-                  Losing track of all the billing deadlines? Want to avoid late
-                  charges? Sync the billing date for your cards with a single
-                  click.
-                </Text>
-                <View style={styles.changeNowBtnContainer}>
-                  <Button paddingVertical={0} style={styles.changeNowBtn}>
-                    <Text bold>Change now</Text>
-                  </Button>
-                </View>
-              </View>
+              <Calendar markedDates={markedDates} />
             )}
           </View>
           <View
@@ -108,13 +67,13 @@ export default function HomeScreen() {
                 </Text>
                 <View style={styles.totalOwedContainer}>
                   <Text size="2xl" style={styles.mrAuto} bold>
-                    ${amountOwed}
+                    ${totalAmountOwed}
                   </Text>
                   <Button
                     paddingVertical={0}
                     backgroundColor={colors.yellow}
                     style={styles.payAllBtn}
-                    disabled={amountOwed === 0}
+                    disabled={totalAmountOwed === 0}
                     onPress={() => {
                       router.push("screens/(tabs)/payments/initiate-payment");
                     }}
@@ -125,8 +84,8 @@ export default function HomeScreen() {
                   </Button>
                 </View>
                 <Text color={colors.inputPlaceholderColor}>
-                  {amountOwed > 1
-                    ? `Across ${cardsThatHaveDues?.length} cards, pay by ${dueDate}`
+                  {totalAmountOwed > 1
+                    ? `Across ${cardsThatHaveDues?.length} cards, pay by ${dayjs(sortedDueDates[0]).format("MMMM DD")}`
                     : "You're all set!"}
                 </Text>
               </View>

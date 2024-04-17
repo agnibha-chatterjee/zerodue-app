@@ -94,3 +94,12 @@ export function nFormatter(num, digits) {
       }
     : { value: "0", symbol: "" };
 }
+
+export function getRandomItems(array, count) {
+  const tempArray = array.slice();
+  for (let i = tempArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [tempArray[i], tempArray[j]] = [tempArray[j], tempArray[i]];
+  }
+  return tempArray.slice(0, count);
+}
