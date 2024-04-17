@@ -24,6 +24,7 @@ export default function PaymentSuccess() {
       >
         <AntDesign name="checkcircle" size={72} color={colors.paymentSuccess} />
         <Text size="2xl">You're all set!</Text>
+        <Text size="md">How's that zerodue life? 😉</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={handleRedirectToRewards}>

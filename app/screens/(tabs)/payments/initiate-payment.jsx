@@ -92,7 +92,7 @@ export default function InitiatePaymentScreen() {
 
   return (
     <DarkSafeAreaView>
-      <ScrollView>
+      <ScrollView outsideTabNavigator>
         <View style={{ padding: 20 }}>
           {paymentsText}
           <View

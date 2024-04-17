@@ -58,7 +58,7 @@ export default function PaymentsScreen() {
   }
 
   return (
-    <DarkSafeAreaView>
+    <DarkSafeAreaView outsideTabNavigator>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
