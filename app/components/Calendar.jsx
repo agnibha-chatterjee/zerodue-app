@@ -3,15 +3,44 @@ import { colors } from "@constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { scale, verticalScale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { View, StyleSheet, Modal } from "react-native";
-import { Calendar as RNCalendar } from "react-native-calendars";
+import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 
 import { DarkSafeAreaView } from "./DarkSafeAreaView";
 import { Button } from "./button";
 import { IconButton } from "./button/icon-btn";
 import { CardsList } from "./cards-list";
 import { Text } from "./text";
+
+LocaleConfig.locales["en"] = {
+  monthNames: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  dayNames: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+  dayNamesShort: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+};
+
+LocaleConfig.defaultLocale = "en";
 
 export function Calendar(props) {
   const { markedDates = {}, markedDatesInfo = {} } = props;
@@ -20,7 +49,15 @@ export function Calendar(props) {
 
   return (
     <>
+      <Text
+        bold
+        size="md"
+        style={{ marginLeft: scale(10), marginBottom: verticalScale(-17.5) }}
+      >
+        April 2024
+      </Text>
       <RNCalendar
+        customHeaderTitle={<View />}
         disableMonthChange
         renderArrow={() => null}
         hideExtraDays
@@ -31,28 +68,14 @@ export function Calendar(props) {
           setSelectedDate(dateString);
         }}
         markingType="multi-dot"
-        customHeader={({ month }) => {
-          return (
-            <View>
-              <Text bold size="md" style={styles.ph5}>
-                {dayjs(month).format("MMMM YYYY")}
-              </Text>
-              <View style={[styles.daysOfTheWeekContainer, styles.ph5]}>
-                {daysOfTheWeek.map((day) => (
-                  <Text key={day} color={colors.calendarDayTextColor}>
-                    {day}
-                  </Text>
-                ))}
-              </View>
-            </View>
-          );
-        }}
         theme={{
           dayTextColor: colors.white,
           monthTextColor: colors.white,
           calendarBackground: colors.transparent,
           backgroundColor: colors.transparent,
           textDayFontFamily: "SF-Pro-Display-Regular",
+          todayTextColor: colors.white,
+          todayBackgroundColor: colors.todaysDateBg,
         }}
         markedDates={markedDates}
       />

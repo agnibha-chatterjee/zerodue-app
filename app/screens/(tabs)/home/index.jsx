@@ -27,7 +27,7 @@ export default function HomeScreen() {
       >
         <View style={styles.p20}>
           <Text size="2xl" style={styles.mb15}>
-            Upcoming Dues
+            Upcoming Bills
           </Text>
           <View
             style={[
@@ -90,7 +90,7 @@ export default function HomeScreen() {
 
           <View style={styles.mt15}>
             <Text size="2xl" style={styles.mb10}>
-              Cards
+              Due Soon
             </Text>
             <CardsList
               isLoading={isLoading}

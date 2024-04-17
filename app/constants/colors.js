@@ -14,4 +14,5 @@ export const colors = {
   orangeDot: "#FECB32",
   lavenderDot: "#CE9ECE",
   redDot: "#CF302A",
+  todaysDateBg: "#699BF7",
 };
