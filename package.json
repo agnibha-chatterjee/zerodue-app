@@ -14,7 +14,9 @@
     "lint:fix": "eslint . --fix",
     "start:lt": "lt --port 8000",
     "eas-cli": "eas",
-    "eas-build-ios": "eas build --platform ios"
+    "eas-build-ios": "eas build --platform ios",
+    "eas-build-android": "eas build --platform android",
+    "eas-build-android:preview": "eas build -p android --profile preview"
   },
   "dependencies": {
     "@expo/metro-config": "~0.17.1",
