@@ -103,7 +103,9 @@ export default function HomeScreen() {
                   marginTop: verticalScale(25),
                 }}
               >
-                <Text size="xl">You're all caught up 🥳</Text>
+                <Text bold size="xl">
+                  You're all caught up 🥳
+                </Text>
               </View>
             )}
           </View>
