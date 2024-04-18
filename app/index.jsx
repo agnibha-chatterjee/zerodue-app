@@ -1,4 +1,5 @@
 import { checkAuthStatus } from "@api/auth-api";
+import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { ASYNC_STORAGE_KEYS } from "@constants/async-storage-keys";
 import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -32,7 +33,7 @@ export default function RootScreen() {
       if (isLoading || !isNavigationReady || !fontsLoaded) return;
 
       if (isError) {
-        router.push("screens/auth/sign-up");
+        router.replace("screens/onboarding/app-onboarding");
         return;
       }
 
@@ -61,5 +62,5 @@ export default function RootScreen() {
     setUser,
   ]);
 
-  return null;
+  return <DarkSafeAreaView />;
 }

@@ -19,4 +19,5 @@ export const colors = {
   cashbackBg: "#016f47",
   paymentSuccess: "#53EC74",
   paymentSuccessBg: "#010101",
+  onboardingCarouselInactiveBg: "#8B8B8B",
 };
