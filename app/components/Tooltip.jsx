@@ -8,24 +8,26 @@ export function Tooltip(props) {
   const { IconStart, IconEnd, children, TooltipContent } = props;
   const [isVisible, setIsVisible] = useState(false);
   return (
-    <RNTooltip
-      isVisible={isVisible}
-      content={TooltipContent}
-      placement="top"
-      contentStyle={{
-        backgroundColor: colors.blackBg,
-      }}
-      onClose={() => {
-        setIsVisible(false);
-      }}
-    >
-      <IconButton
-        onPress={() => setIsVisible(true)}
-        IconStart={IconStart}
-        IconEnd={IconEnd}
+    <IconButton backgroundColor={colors.transparent}>
+      <RNTooltip
+        isVisible={isVisible}
+        content={TooltipContent}
+        placement="top"
+        contentStyle={{
+          backgroundColor: colors.blackBg,
+        }}
+        onClose={() => {
+          setIsVisible(false);
+        }}
       >
-        {children}
-      </IconButton>
-    </RNTooltip>
+        <IconButton
+          onPress={() => setIsVisible(true)}
+          IconStart={IconStart}
+          IconEnd={IconEnd}
+        >
+          {children}
+        </IconButton>
+      </RNTooltip>
+    </IconButton>
   );
 }
