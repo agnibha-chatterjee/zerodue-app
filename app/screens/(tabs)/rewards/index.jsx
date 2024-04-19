@@ -133,7 +133,7 @@ export default function RewardsScreen() {
           </View>
           <View style={styles.mt20}>
             <View style={styles.cardRecommendationsContainer}>
-              <Text size="2xl" style={styles.mrAuto}>
+              <Text size="xl" style={styles.mrAuto}>
                 Best Value
               </Text>
               <IconButton
@@ -187,7 +187,7 @@ export default function RewardsScreen() {
           {!rewards.length ? null : (
             <View style={[styles.mt20, styles.h100]}>
               <View style={styles.cardRecommendationsContainer}>
-                <Text size="2xl" style={styles.mrAuto}>
+                <Text size="xl" style={styles.mrAuto}>
                   Rewards
                 </Text>
                 <IconButton

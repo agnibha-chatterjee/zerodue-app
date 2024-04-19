@@ -61,6 +61,21 @@ export default function TabsLayout() {
           tabBarLabel: () => <Text size="xxs">Rewards</Text>,
         }}
       />
+
+      <Tabs.Screen
+        name="spending/index"
+        options={{
+          title: "Spending",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="wallet-outline"
+              size={ICON_SIZE}
+              color={focused ? colors.white : colors.inputPlaceholderColor}
+            />
+          ),
+          tabBarLabel: () => <Text size="xxs">Spending</Text>,
+        }}
+      />
       <Tabs.Screen
         name="payments"
         options={{

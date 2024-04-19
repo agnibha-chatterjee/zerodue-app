@@ -20,4 +20,7 @@ export const colors = {
   paymentSuccess: "#53EC74",
   paymentSuccessBg: "#010101",
   onboardingCarouselInactiveBg: "#8B8B8B",
+  link: "#699BF7",
+  unoptimizedReward: "#cd1f2e",
+  optimizedReward: "#14ae5d",
 };
