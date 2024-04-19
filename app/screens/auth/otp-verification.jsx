@@ -33,11 +33,11 @@ export default function OtpVerificationScreen() {
       setUser(data.user);
       router.replace("screens/onboarding/method-onboarding");
     },
-    onError: (error) => {
+    onError: async () => {
+      await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
       Toast.show({
         type: "error",
-        text1: "Incorrect OTP",
-        text2: error.message,
+        text1: "Error verifying OTP",
       });
     },
   });

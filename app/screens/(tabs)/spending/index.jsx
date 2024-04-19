@@ -225,12 +225,15 @@ export default function Spending() {
                           }}
                         />
                         <Text>
-                          Transaction was optimized (i.e. - the right
-                          card/reward was used)
+                          The best card/reward was used for this transaction
                         </Text>
                       </View>
                       <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginTop: verticalScale(5),
+                        }}
                       >
                         <View
                           style={{
@@ -242,8 +245,8 @@ export default function Spending() {
                           }}
                         />
                         <Text>
-                          There was room for optimization (i.e. - a better
-                          card/reward could have been used)
+                          An alternate card/reward could have been used to
+                          optimize this transaction
                         </Text>
                       </View>
                     </View>

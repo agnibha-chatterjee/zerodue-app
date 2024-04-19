@@ -1,5 +1,7 @@
-import OnboardingItem1Pic from "@assets/images/onboarding/onboarding-1.png";
-import OnboardingItem2Pic from "@assets/images/onboarding/onboarding-2.png";
+import OnboardingItem1 from "@assets/images/onboarding/onboarding-1.png";
+import OnboardingItem2 from "@assets/images/onboarding/onboarding-2.png";
+import OnboardingItem3 from "@assets/images/onboarding/onboarding-3.png";
+import OnboardingItem4 from "@assets/images/onboarding/onboarding-4.png";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
@@ -18,9 +20,10 @@ import Carousel from "react-native-reanimated-carousel";
 import Toast from "react-native-toast-message";
 
 const onboardingImages = [
-  OnboardingItem1Pic,
-  OnboardingItem2Pic,
-  OnboardingItem2Pic,
+  OnboardingItem1,
+  OnboardingItem2,
+  OnboardingItem3,
+  OnboardingItem4,
 ];
 
 function Index() {
@@ -41,7 +44,7 @@ function Index() {
         <Carousel
           {...baseOptions}
           style={{
-            height: window.height - verticalScale(225),
+            height: window.height - verticalScale(215),
             width: WINDOW_WIDTH,
           }}
           loop
@@ -69,7 +72,7 @@ function Index() {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              width: 100,
+              width: scale(85),
               alignSelf: "center",
             }}
           >
@@ -96,7 +99,7 @@ function Index() {
           router.push("screens/auth/sign-up");
         }}
       >
-        <Text>Get Started</Text>
+        <Text>Get started</Text>
       </Button>
       <Button
         backgroundColor={appColors.black}
