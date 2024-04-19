@@ -3,9 +3,9 @@
     "name": "zerodue",
     "slug": "zerodue",
     "scheme": "zerodue",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/app-icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
