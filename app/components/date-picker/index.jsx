@@ -35,6 +35,7 @@ export function DatePicker(props) {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+        maximumDate={dayjs().subtract(18, "year").toDate()}
         onConfirm={(date) => {
           const formattedDate = dayjs(date).format("YYYY-MM-DD");
           setDate(formattedDate);
