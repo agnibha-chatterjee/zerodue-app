@@ -108,7 +108,7 @@ export default function HomeScreen() {
             </View>
             <CardsList
               isLoading={isLoading}
-              cards={cardsThatHaveDues ?? sampleArray}
+              cards={cardsThatHaveDues.length ? cardsThatHaveDues : sampleArray}
               height={verticalScale(175)}
               horizontal
             />
