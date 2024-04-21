@@ -32,7 +32,7 @@ export default function MethodOnboarding() {
     mutationKey: "fetchMethodElementsToken",
     mutationFn: completeMethodOnboarding,
     onSuccess: () => {
-      router.replace("screens/(tabs)");
+      router.replace("screens/(tabs)/home");
     },
   });
 

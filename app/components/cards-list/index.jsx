@@ -34,7 +34,7 @@ export function CardsList(props) {
             <>
               {horizontal ? (
                 <View style={{ marginHorizontal: scale(7.5) }}>
-                  <Skeleton height="100%" width={scale(100)} />
+                  <Skeleton height="100%" width={scale(180)} />
                 </View>
               ) : (
                 <View style={{ marginVertical: verticalScale(6) }}>

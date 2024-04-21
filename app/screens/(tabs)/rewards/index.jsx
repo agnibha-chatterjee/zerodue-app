@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: scale(110),
     paddingStart: scale(10),
-    opacity: 0.8,
+    opacity: 0.7,
     marginRight: scale(1.5),
   },
   logo: { position: "absolute", right: scale(-30) },

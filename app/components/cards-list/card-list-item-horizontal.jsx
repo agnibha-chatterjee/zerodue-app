@@ -30,7 +30,9 @@ export function CardListItemHorizontal(props) {
   const issuer = getCardIssuer(item.name);
 
   const image = imgs[issuer];
-  const limit = item.creditLimit / 100;
+  const limit = item.creditLimit
+    ? item.creditLimit / 100
+    : item.availableCredit / 100;
   const minAmount = item.nextPaymentMinimumAmount / 100;
   const dueDate = dayjs(item.nextPaymentDueDate).format("MMM DD");
 

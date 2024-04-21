@@ -147,20 +147,28 @@ export default function HomeScreen() {
               showsVerticalScrollIndicator={false}
               horizontal
             >
-              <View
-                style={{
-                  backgroundColor: colors.cardBg,
-                  height: verticalScale(125),
-                  width: scale(160),
-                  marginRight: scale(15),
-                  borderRadius: scale(10),
-                  padding: scale(15),
-                }}
-              >
+              <>
                 {isLoading ? (
-                  <Skeleton height="100%" width="100%" />
+                  <View
+                    style={{
+                      height: verticalScale(125),
+                      width: scale(160),
+                      marginRight: scale(15),
+                    }}
+                  >
+                    <Skeleton height="100%" width="100%" />
+                  </View>
                 ) : (
-                  <>
+                  <View
+                    style={{
+                      backgroundColor: colors.cardBg,
+                      height: verticalScale(125),
+                      width: scale(160),
+                      marginRight: scale(15),
+                      borderRadius: scale(10),
+                      padding: scale(15),
+                    }}
+                  >
                     <Text bold size="md" color={colors.teal}>
                       Usage
                     </Text>
@@ -181,23 +189,23 @@ export default function HomeScreen() {
                         <Text>Details</Text>
                       </TextButton>
                     </View>
-                  </>
+                  </View>
                 )}
-              </View>
-              <View
-                style={{
-                  backgroundColor: colors.cardBg,
-                  height: verticalScale(125),
-                  width: scale(160),
-                  marginRight: scale(15),
-                  borderRadius: scale(10),
-                  padding: scale(15),
-                }}
-              >
+              </>
+              <>
                 {isLoading ? (
-                  <Skeleton height="100%" width="100%" />
+                  <Skeleton height={verticalScale(125)} width={scale(160)} />
                 ) : (
-                  <>
+                  <View
+                    style={{
+                      backgroundColor: colors.cardBg,
+                      height: verticalScale(125),
+                      width: scale(160),
+                      marginRight: scale(15),
+                      borderRadius: scale(10),
+                      padding: scale(15),
+                    }}
+                  >
                     <Text bold size="md" color={colors.yellow}>
                       Coming up
                     </Text>
@@ -218,9 +226,9 @@ export default function HomeScreen() {
                         <Text>Details</Text>
                       </TextButton>
                     </View>
-                  </>
+                  </View>
                 )}
-              </View>
+              </>
             </ScrollView>
           </View>
 
@@ -252,24 +260,28 @@ export default function HomeScreen() {
                 </Text>
               </IconButton>
             </View>
-            <View
-              style={[
-                styles.cardRecommendationsContainer,
-                {
-                  backgroundColor: colors.cardBg,
-                  padding: scale(12.5),
-                  borderRadius: 8,
-                },
-              ]}
-            >
-              <StarsIcon style={{ marginRight: "auto" }} />
-              <View style={{ width: scale(235) }}>
-                <Text>
-                  You could be earning $522 in rewards for your rent payments.{" "}
-                  <Text color={colors.link}>Here's how</Text>
-                </Text>
+            {isLoading ? (
+              <Skeleton height={verticalScale(60)} width="100%" />
+            ) : (
+              <View
+                style={[
+                  styles.cardRecommendationsContainer,
+                  {
+                    backgroundColor: colors.cardBg,
+                    padding: scale(12.5),
+                    borderRadius: 8,
+                  },
+                ]}
+              >
+                <StarsIcon style={{ marginRight: "auto" }} />
+                <View style={{ width: scale(235) }}>
+                  <Text>
+                    You could be earning $522 in rewards for your rent payments.{" "}
+                    <Text color={colors.link}>Here's how</Text>
+                  </Text>
+                </View>
               </View>
-            </View>
+            )}
           </View>
 
           {areThereRewards ? (
