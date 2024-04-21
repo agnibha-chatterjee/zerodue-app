@@ -2,13 +2,13 @@ import {
   fetchMethodElementsToken,
   completeMethodOnboarding,
 } from "@api/auth-api";
-import LoaderIcon from "@assets/icons/loader.svg";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { MethodFiDialog } from "@components/MethodFiDialog";
 import { Button } from "@components/button";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
 import { verticalScale } from "@utils/scaling-utils";
+import { useStore } from "app/store";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { View } from "react-native";
@@ -19,6 +19,10 @@ export default function MethodOnboarding() {
   const [token, setToken] = useState(null);
 
   const successRef = useRef(false);
+
+  const { user } = useStore((state) => ({ user: state.user }));
+
+  console.log(user);
 
   const { mutate: fetchElementsToken, isLoading } = useMutation({
     mutationKey: "fetchMethodElementsToken",
@@ -62,51 +66,18 @@ export default function MethodOnboarding() {
             paddingTop: 20,
           }}
         >
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "auto",
-            }}
-          >
-            <LoaderIcon />
-          </View>
+          <Text size="2xl">Almost done, {user?.firstName}!</Text>
+          <Text size="2xl">Connect your cards</Text>
           <Text
             size="md"
-            bold
             color={colors.inputPlaceholderColor}
-            style={{
-              textDecorationLine: "underline",
-            }}
+            style={{ marginTop: verticalScale(20) }}
           >
-            Note
-          </Text>
-          <Text
-            size="md"
-            bold
-            style={{
-              marginVertical: verticalScale(5),
-            }}
-            color={colors.inputPlaceholderColor}
-          >
-            {`\u2022`} Zerodue uses Method Financial to fetch and connect your
-            credit cards.
-          </Text>
-          <Text
-            size="md"
-            bold
-            style={{
-              marginTop: verticalScale(5),
-              marginBottom: verticalScale(10),
-            }}
-            color={colors.inputPlaceholderColor}
-          >
-            {`\u2022`} This process will not affect your credit score or credit
-            limit.
+            We use Method Financial to fetch and connect your credit cards. This
+            will not affect your credit score or credit limit.
           </Text>
           <Button
-            style={{ marginBottom: 25 }}
+            style={{ marginBottom: 25, marginTop: "auto" }}
             onPress={fetchElementsToken}
             isLoading={isLoading}
           >
