@@ -23,4 +23,5 @@ export const colors = {
   link: "#699BF7",
   unoptimizedReward: "#cd1f2e",
   optimizedReward: "#14ae5d",
+  teal: "#87E3E1",
 };

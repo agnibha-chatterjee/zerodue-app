@@ -22,9 +22,12 @@ export const useAllUserRewards = () => {
     return total;
   }, [rewards]);
 
+  const areThereRewards = rewards?.length > 0;
+
   return {
     isLoading,
     totalPoints,
     rewards,
+    areThereRewards,
   };
 };

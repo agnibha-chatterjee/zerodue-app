@@ -44,7 +44,7 @@ export default function RootScreen() {
         await updateAccessTokenInAsyncStorage(data.accessToken);
 
         if (user.phoneNumberVerified && user.methodFiVerified) {
-          router.replace("screens/(tabs)");
+          router.replace("screens/(tabs)/home");
         } else {
           router.replace("screens/onboarding/method-onboarding");
         }

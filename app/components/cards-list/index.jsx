@@ -1,8 +1,10 @@
 import { FlashList } from "@shopify/flash-list";
+import { scale, verticalScale } from "@utils/scaling-utils";
 import { Skeleton } from "moti/skeleton";
-import { View } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
 import { CardListItem } from "./card-list-item";
+import { CardListItemHorizontal } from "./card-list-item-horizontal";
 
 export function CardsList(props) {
   const {
@@ -12,19 +14,36 @@ export function CardsList(props) {
     beforeNavigate = () => {},
     selectedCards = [],
     cards,
+    height = "100%",
+    horizontal = false,
   } = props;
 
+  const Component = horizontal ? FlatList : FlashList;
+
   return (
-    <View style={{ height: "100%" }}>
-      <FlashList
+    <View style={[styles.container, { height }]}>
+      <Component
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        horizontal={horizontal}
         data={cards}
         keyExtractor={(item) => (item.id ? item.id : item)}
         estimatedItemSize={10}
         renderItem={({ item }) => {
           return isLoading ? (
-            <View style={{ marginVertical: 7.5 }}>
-              <Skeleton width="100%" height={120} />
-            </View>
+            <>
+              {horizontal ? (
+                <View style={{ marginHorizontal: scale(7.5) }}>
+                  <Skeleton height="100%" width={scale(100)} />
+                </View>
+              ) : (
+                <View style={{ marginVertical: verticalScale(6) }}>
+                  <Skeleton width="100%" height={verticalScale(110)} />
+                </View>
+              )}
+            </>
+          ) : horizontal ? (
+            <CardListItemHorizontal item={item} />
           ) : (
             <CardListItem
               item={item}
@@ -39,3 +58,10 @@ export function CardsList(props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+  },
+});

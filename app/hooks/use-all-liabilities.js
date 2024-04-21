@@ -13,6 +13,8 @@ export const useAllLiabilities = () => {
 
   const totalAmountOwed = data?.totalAmountOwed / 100 ?? 0;
 
+  const totalNoOfCards = data?.liabilities?.length ?? 0;
+
   const cardsThatHaveDues = useMemo(() => {
     if (!data?.liabilities) {
       return [];
@@ -29,6 +31,15 @@ export const useAllLiabilities = () => {
     return sortedCards;
   }, [data]);
 
+  const totalLimit =
+    data?.liabilities.reduce((acc, card) => {
+      let creditLimit = card.creditLimit;
+      if (!creditLimit) {
+        creditLimit = card.availableCredit;
+      }
+      return acc + creditLimit / 100;
+    }, 0) ?? 0;
+
   useRefetchOnFocus(refetch);
 
   return {
@@ -36,5 +47,7 @@ export const useAllLiabilities = () => {
     totalAmountOwed,
     isLoading,
     cardsThatHaveDues,
+    totalNoOfCards,
+    totalLimit,
   };
 };

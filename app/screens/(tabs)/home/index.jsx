@@ -1,23 +1,58 @@
-import { Calendar } from "@components/Calendar";
+import Asterisk from "@assets/icons/asterisk.svg";
+import StarsIcon from "@assets/icons/stars.svg";
+import AmazonLogo from "@assets/images/partners/amazon.png";
+import DoorDashLogo from "@assets/images/partners/doordash.png";
+import NikeLogo from "@assets/images/partners/nike.png";
+import WholeFoodsLogo from "@assets/images/partners/wholefoods.webp";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
-import { Button } from "@components/button";
+import { IconButton } from "@components/button/icon-btn";
+import { TextButton } from "@components/button/text-btn";
 import { CardsList } from "@components/cards-list";
 import { Text } from "@components/text";
 import { colors } from "@constants/colors";
 import { sampleArray } from "@constants/misc";
+import { Entypo, EvilIcons } from "@expo/vector-icons";
 import { useAllLiabilities } from "@hooks/use-all-liabilities";
-import { getMarkedDates, getSortedDueDates } from "@utils/liability-utils";
-import { verticalScale } from "@utils/scaling-utils";
-import dayjs from "dayjs";
+import { useAllUserRewards } from "@hooks/use-all-user-rewards";
+import { FlashList } from "@shopify/flash-list";
+import { scale, verticalScale } from "@utils/scaling-utils";
 import { router } from "expo-router";
 import { Skeleton } from "moti/skeleton";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Image } from "react-native";
+
+const fixedRewards = [
+  {
+    merchant: "DoorDash",
+    reward: "10% off",
+    partnerLogo: DoorDashLogo,
+  },
+  {
+    merchant: "Nike",
+    reward: "$200 off",
+    partnerLogo: NikeLogo,
+  },
+  {
+    merchant: "Amazon",
+    reward: "Prime Membership for 3 months",
+    partnerLogo: AmazonLogo,
+  },
+  {
+    merchant: "Whole Foods",
+    reward: "30% cashback",
+    partnerLogo: WholeFoodsLogo,
+  },
+];
 
 export default function HomeScreen() {
-  const { cardsThatHaveDues, isLoading, totalAmountOwed } = useAllLiabilities();
+  const {
+    cardsThatHaveDues,
+    isLoading,
+    totalAmountOwed,
+    totalNoOfCards,
+    totalLimit,
+  } = useAllLiabilities();
 
-  const { markedDates, markedDatesInfo } = getMarkedDates(cardsThatHaveDues);
-  const sortedDueDates = getSortedDueDates(cardsThatHaveDues, "desc");
+  const { rewards, areThereRewards } = useAllUserRewards();
 
   return (
     <DarkSafeAreaView>
@@ -26,99 +61,276 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.p20}>
-          <Text size="2xl" style={styles.mb15}>
-            Upcoming Bills
-          </Text>
-          <View
-            style={[
-              styles.card,
-              {
-                backgroundColor: isLoading ? colors.transparent : colors.cardBg,
-              },
-            ]}
-          >
-            {isLoading ? (
-              <Skeleton width="100%" height={300} />
-            ) : (
-              <Calendar
-                markedDates={markedDates}
-                markedDatesInfo={markedDatesInfo}
-              />
-            )}
-          </View>
-          <View
-            style={[
-              styles.card,
-              {
-                backgroundColor: isLoading ? colors.transparent : colors.cardBg,
-              },
-            ]}
-          >
-            {isLoading ? (
-              <Skeleton width="100%" height={130} />
-            ) : (
-              <View>
-                <Text bold color={colors.yellow} style={styles.mb5}>
-                  Total Due
-                </Text>
-                <View style={styles.totalOwedContainer}>
-                  <Text size="2xl" style={styles.mrAuto} bold>
-                    ${totalAmountOwed}
-                  </Text>
-                  <Button
-                    paddingVertical={0}
-                    backgroundColor={colors.yellow}
-                    style={styles.payAllBtn}
-                    disabled={totalAmountOwed === 0}
-                    onPress={() => {
-                      router.push("screens/(tabs)/payments/initiate-payment");
-                    }}
-                  >
-                    <Text color={colors.black} bold>
-                      Pay all
-                    </Text>
-                  </Button>
-                </View>
-                <Text color={colors.inputPlaceholderColor}>
-                  {totalAmountOwed > 1
-                    ? `Across ${cardsThatHaveDues.length} ${cardsThatHaveDues.length > 1 ? "cards" : "card"}, pay by ${dayjs(sortedDueDates[0]).format("MMMM DD")}`
-                    : "You're all set!"}
-                </Text>
-              </View>
-            )}
+          <View style={styles.cardRecommendationsContainer}>
+            <Asterisk
+              style={{
+                marginBottom: verticalScale(7.5),
+                marginRight: scale(5),
+              }}
+            />
+            <Text size="2xl" style={styles.mb15}>
+              At a glance
+            </Text>
           </View>
 
-          {isLoading ? (
-            <>
-              <Text size="2xl" style={styles.mb10}>
-                Due Soon
+          <View
+            style={{
+              marginBottom: verticalScale(20),
+            }}
+          >
+            <View
+              style={[
+                styles.cardRecommendationsContainer,
+                { marginBottom: verticalScale(10) },
+              ]}
+            >
+              <Text size="xl" style={styles.mrAuto}>
+                Cards ({totalNoOfCards})
               </Text>
-              <CardsList isLoading={isLoading} cards={sampleArray} />
-            </>
-          ) : (
-            <View style={styles.mt15}>
-              {cardsThatHaveDues.length ? (
-                <>
-                  <Text size="2xl" style={styles.mb10}>
-                    Due Soon
-                  </Text>
-                  <CardsList isLoading={isLoading} cards={cardsThatHaveDues} />
-                </>
-              ) : (
-                <View
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: verticalScale(25),
-                  }}
+              <IconButton
+                onPress={() => router.navigate("screens/(tabs)/cards")}
+                IconEnd={() => (
+                  <Entypo
+                    name="chevron-right"
+                    size={26}
+                    color={colors.inputPlaceholderColor}
+                  />
+                )}
+              >
+                <Text
+                  color={colors.inputPlaceholderColor}
+                  style={styles.mrn5}
+                  size="md"
                 >
-                  <Text bold size="xl">
-                    You're all caught up 🥳
-                  </Text>
-                </View>
-              )}
+                  see all{" "}
+                </Text>
+              </IconButton>
             </View>
-          )}
+            <CardsList
+              isLoading={isLoading}
+              cards={cardsThatHaveDues ?? sampleArray}
+              height={verticalScale(175)}
+              horizontal
+            />
+          </View>
+
+          <View style={{ marginBottom: verticalScale(20) }}>
+            <View
+              style={[
+                styles.cardRecommendationsContainer,
+                { marginBottom: verticalScale(10) },
+              ]}
+            >
+              <Text size="xl" style={styles.mrAuto}>
+                Usage
+              </Text>
+              <IconButton
+                IconEnd={() => (
+                  <Entypo
+                    name="chevron-right"
+                    size={26}
+                    color={colors.inputPlaceholderColor}
+                  />
+                )}
+              >
+                <Text
+                  color={colors.inputPlaceholderColor}
+                  style={styles.mrn5}
+                  size="md"
+                >
+                  see all{" "}
+                </Text>
+              </IconButton>
+            </View>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              horizontal
+            >
+              <View
+                style={{
+                  backgroundColor: colors.cardBg,
+                  height: verticalScale(125),
+                  width: scale(160),
+                  marginRight: scale(15),
+                  borderRadius: scale(10),
+                  padding: scale(15),
+                }}
+              >
+                {isLoading ? (
+                  <Skeleton height="100%" width="100%" />
+                ) : (
+                  <>
+                    <Text bold size="md" color={colors.teal}>
+                      Usage
+                    </Text>
+                    <Text bold size="xl">
+                      ${totalAmountOwed}
+                    </Text>
+                    <Text>out of ${totalLimit}</Text>
+                    <Text>across {totalNoOfCards} cards</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        marginTop: verticalScale(10),
+                      }}
+                    >
+                      <TextButton>
+                        <Text>Details</Text>
+                      </TextButton>
+                    </View>
+                  </>
+                )}
+              </View>
+              <View
+                style={{
+                  backgroundColor: colors.cardBg,
+                  height: verticalScale(125),
+                  width: scale(160),
+                  marginRight: scale(15),
+                  borderRadius: scale(10),
+                  padding: scale(15),
+                }}
+              >
+                {isLoading ? (
+                  <Skeleton height="100%" width="100%" />
+                ) : (
+                  <>
+                    <Text bold size="md" color={colors.yellow}>
+                      Coming up
+                    </Text>
+                    <Text bold size="xl">
+                      $3192
+                    </Text>
+                    <Text>minimum payments</Text>
+                    <Text>starting May 5</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        marginTop: verticalScale(10),
+                      }}
+                    >
+                      <TextButton>
+                        <Text>Details</Text>
+                      </TextButton>
+                    </View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
+          </View>
+
+          <View style={{ marginBottom: verticalScale(20) }}>
+            <View
+              style={[
+                styles.cardRecommendationsContainer,
+                { marginBottom: verticalScale(10) },
+              ]}
+            >
+              <Text size="xl" style={styles.mrAuto}>
+                Insights
+              </Text>
+              <IconButton
+                IconEnd={() => (
+                  <Entypo
+                    name="chevron-right"
+                    size={26}
+                    color={colors.inputPlaceholderColor}
+                  />
+                )}
+              >
+                <Text
+                  color={colors.inputPlaceholderColor}
+                  style={styles.mrn5}
+                  size="md"
+                >
+                  see all{" "}
+                </Text>
+              </IconButton>
+            </View>
+            <View
+              style={[
+                styles.cardRecommendationsContainer,
+                {
+                  backgroundColor: colors.cardBg,
+                  padding: scale(12.5),
+                  borderRadius: 8,
+                },
+              ]}
+            >
+              <StarsIcon style={{ marginRight: "auto" }} />
+              <View style={{ width: scale(235) }}>
+                <Text>
+                  You could be earning $522 in rewards for your rent payments.{" "}
+                  <Text color={colors.link}>Here's how</Text>
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {areThereRewards ? (
+            <View style={[styles.mt20, styles.h100]}>
+              <View style={styles.cardRecommendationsContainer}>
+                <Text size="xl" style={styles.mrAuto}>
+                  Rewards
+                </Text>
+                <IconButton
+                  onPress={() => router.navigate("screens/(tabs)/rewards")}
+                  IconEnd={() => (
+                    <Entypo
+                      name="chevron-right"
+                      size={26}
+                      color={colors.inputPlaceholderColor}
+                    />
+                  )}
+                >
+                  <Text
+                    color={colors.inputPlaceholderColor}
+                    style={styles.mrn5}
+                    size="md"
+                  >
+                    see all{" "}
+                  </Text>
+                </IconButton>
+              </View>
+              <View style={styles.h100}>
+                <FlashList
+                  data={rewards}
+                  estimatedItemSize={5}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.rewardId}
+                  renderItem={({ item, index }) => {
+                    const reward = fixedRewards[index];
+                    return (
+                      <View style={styles.rewardCard}>
+                        <View style={styles.rewardSubContainer}>
+                          <Image
+                            source={reward.partnerLogo}
+                            style={styles.partnerLogo}
+                          />
+                          <View>
+                            <Text bold>{reward.reward}</Text>
+                            <Text color={colors.inputPlaceholderColor}>
+                              {item.rewardFor}
+                            </Text>
+                          </View>
+                        </View>
+                        <EvilIcons
+                          name="chevron-right"
+                          size={36}
+                          color={colors.white}
+                        />
+                      </View>
+                    );
+                  }}
+                />
+              </View>
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     </DarkSafeAreaView>
@@ -132,51 +344,31 @@ const styles = StyleSheet.create({
   mb15: {
     marginBottom: 15,
   },
-
-  card: {
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 8,
-    marginVertical: 5,
-  },
-  dueDateCardContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
-  },
-  changeNowBtnContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginTop: 5,
-  },
-  changeNowBtn: {
-    width: 140,
-    alignSelf: "flex-end",
-    height: 35,
-  },
-  totalOwedContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
-  },
   mrAuto: {
     marginRight: "auto",
   },
-  payAllBtn: { width: 100, height: 35 },
-  mt15: {
-    marginTop: 15,
+  mt10: {
+    marginTop: verticalScale(10),
   },
-  mb10: {
-    marginBottom: 10,
+  mrn5: {
+    marginRight: scale(-5),
   },
-  ph5: {
-    paddingHorizontal: 5,
+  h100: { height: "100%" },
+  cardRecommendationsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  mr5: {
-    marginRight: 5,
+  partnerLogo: {
+    width: scale(50),
+    height: scale(50),
+    borderRadius: scale(25),
+    marginRight: scale(10),
   },
-  mb5: { marginBottom: 5 },
+  rewardCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: scale(5),
+  },
+  rewardSubContainer: { flexDirection: "row", alignItems: "center" },
 });

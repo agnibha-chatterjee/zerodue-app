@@ -20,17 +20,17 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="home/index"
+        name="rewards/index"
         options={{
-          title: "Home",
+          title: "Rewards",
           tabBarIcon: ({ focused }) => (
             <AntDesign
-              name="home"
+              name="gift"
               size={ICON_SIZE}
               color={focused ? colors.white : colors.inputPlaceholderColor}
             />
           ),
-          tabBarLabel: () => <Text size="xxs">Home</Text>,
+          tabBarLabel: () => <Text size="xxs">Rewards</Text>,
         }}
       />
       <Tabs.Screen
@@ -47,21 +47,21 @@ export default function TabsLayout() {
           tabBarLabel: () => <Text size="xxs">Cards</Text>,
         }}
       />
+
       <Tabs.Screen
-        name="rewards/index"
+        name="home/index"
         options={{
-          title: "Rewards",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
             <AntDesign
-              name="gift"
+              name="home"
               size={ICON_SIZE}
               color={focused ? colors.white : colors.inputPlaceholderColor}
             />
           ),
-          tabBarLabel: () => <Text size="xxs">Rewards</Text>,
+          tabBarLabel: () => <Text size="xxs">Home</Text>,
         }}
       />
-
       <Tabs.Screen
         name="spending/index"
         options={{

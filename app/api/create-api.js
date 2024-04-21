@@ -10,15 +10,12 @@ export const createApi = async ({
   token,
   body = {},
   enableLogging,
-  cookie = undefined,
   headers = {},
-  includeCredentials = true,
   enabled = true,
 }) => {
   const reqHeaders = {
     "Content-Type": "application/json",
     ...(!isEmpty(token) && { Authorization: `Bearer ${token}` }),
-    ...(!isEmpty(cookie) && { Cookie: cookie }),
     ...(!isEmpty(headers) && { ...headers }),
   };
 
@@ -32,8 +29,6 @@ export const createApi = async ({
       token,
       body: JSON.stringify(snakecaseKeys(body, { deep: true })),
       httpMethod: method,
-      cookie,
-      includeCredentials,
       headers: reqHeaders,
     });
   }
@@ -45,7 +40,6 @@ export const createApi = async ({
       ...(!isEmpty(body) && {
         body: JSON.stringify(snakecaseKeys(body, { deep: true })),
       }),
-      credentials: includeCredentials ? "include" : "omit",
     });
 
     if (!res.ok) {
