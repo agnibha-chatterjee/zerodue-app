@@ -22,8 +22,6 @@ export default function MethodOnboarding() {
 
   const { user } = useStore((state) => ({ user: state.user }));
 
-  console.log(user);
-
   const { mutate: fetchElementsToken, isLoading } = useMutation({
     mutationKey: "fetchMethodElementsToken",
     mutationFn: fetchMethodElementsToken,
