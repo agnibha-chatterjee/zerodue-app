@@ -114,11 +114,6 @@ export function Calendar(props) {
             {noOfCards > 1 ? " cards" : " card"}.
           </Text>
           <CardsList cards={cards} beforeNavigate={() => setSelectedDate("")} />
-          <Button
-            title="Close"
-            onPress={() => setSelectedDate("")}
-            style={styles.ph5}
-          />
         </View>
       </Modal>
     </>
@@ -138,7 +133,7 @@ const styles = StyleSheet.create({
   br10: {
     borderRadius: 10,
   },
-  modalContainer: { backgroundColor: colors.blackBg, padding: 20 },
+  modalContainer: { backgroundColor: colors.blackBg, padding: 20, flex: 1 },
   modalHeaderContainer: {
     flexDirection: "row",
     alignItems: "center",

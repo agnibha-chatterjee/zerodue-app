@@ -27,7 +27,7 @@ const imgs = {
 export function CardListItemHorizontal(props) {
   const { item } = props;
 
-  const issuer = getCardIssuer(item.name);
+  const issuer = getCardIssuer(item.name ?? "");
 
   const image = imgs[issuer];
   const limit = item.creditLimit
