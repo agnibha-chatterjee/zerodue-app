@@ -108,10 +108,7 @@ function Index() {
           marginHorizontal: scale(20),
         }}
         onPress={() => {
-          Toast.show({
-            type: "info",
-            text1: "Work in progress",
-          });
+          router.push("screens/sample/spinwheel-dim");
         }}
       >
         <Text>Continue with Phone Number</Text>
