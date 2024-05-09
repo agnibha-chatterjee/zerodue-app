@@ -15,11 +15,12 @@ export const checkAuthStatus = async () => {
   });
 };
 
-export const generateOtp = (reqBody) => {
+export const sendVerificationSms = (reqBody) => {
   return createApi({
-    endpoint: API_ENDPOINTS.GENERATE_OTP,
+    endpoint: API_ENDPOINTS.SEND_VERIFICATION_SMS,
     method: HTTP_VERBS.POST,
     body: reqBody,
+    enableLogging: true,
   });
 };
 

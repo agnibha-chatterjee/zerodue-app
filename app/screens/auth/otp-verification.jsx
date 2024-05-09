@@ -21,6 +21,7 @@ export default function OtpVerificationScreen() {
     mutationKey: "generateOtp",
     mutationFn: (reqBody) => verifyOtp(reqBody),
     onSuccess: async (data) => {
+      console.log(data);
       Toast.show({
         type: "success",
         text1: "Success",
@@ -31,7 +32,7 @@ export default function OtpVerificationScreen() {
         data.accessToken
       );
       setUser(data.user);
-      router.replace("screens/onboarding/method-onboarding");
+      router.replace("screens/(tabs)/home");
     },
     onError: async () => {
       await AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.AUTH_TOKEN);
@@ -45,7 +46,7 @@ export default function OtpVerificationScreen() {
   const onSubmitOtp = (otp) => {
     const reqBody = {
       otp,
-      phoneNumber: params.phoneNumber,
+      userId: params.userId,
     };
     mutate(reqBody);
   };

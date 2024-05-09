@@ -1,4 +1,4 @@
-import { generateOtp } from "@api/auth-api";
+import { sendVerificationSms } from "@api/auth-api";
 import { DarkSafeAreaView } from "@components/DarkSafeAreaView";
 import { Button } from "@components/button";
 import { DatePicker } from "@components/date-picker";
@@ -8,7 +8,7 @@ import { colors } from "@constants/colors";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupValidationSchema } from "@schemas/signup-validation";
 import { formatPhoneNumber, unformatPhoneNumber } from "@utils/common";
-import dayjs from "dayjs";
+import { scale, verticalScale } from "@utils/scaling-utils";
 import { router } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -29,21 +29,20 @@ export default function SignupScreen() {
   } = useForm({
     resolver: yupResolver(signupValidationSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
       phoneNumber: "",
-      dateOfBirth: "",
+      dob: "",
     },
   });
 
   const { mutate, isLoading } = useMutation({
     mutationKey: "generateOtp",
-    mutationFn: (reqBody) => generateOtp(reqBody),
-    onSuccess: () => {
+    mutationFn: (reqBody) => sendVerificationSms(reqBody),
+    onSuccess: (responseData) => {
       const formData = getValues();
       router.push({
         pathname: "screens/auth/otp-verification",
         params: {
+          ...responseData,
           ...formData,
           phoneNumber: `+1${unformatPhoneNumber(formData.phoneNumber)}`,
         },
@@ -67,70 +66,12 @@ export default function SignupScreen() {
           }}
         >
           <View style={{ flex: 1 }}>
-            <Text
-              size="2xl"
-              style={{
-                marginBottom: 20,
-              }}
-            >
+            <Text size="2xl" style={styles.mb20}>
               Create your account
             </Text>
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <View>
-                  <Input
-                    placeholder="First name"
-                    style={{ marginVertical: 10 }}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                  />
-                  <Text size="xs" color={colors.inputError}>
-                    {errors.firstName?.message}
-                  </Text>
-                </View>
-              )}
-              name="firstName"
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <View>
-                  <Input
-                    placeholder="Last name"
-                    style={{ marginVertical: 10 }}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                  />
-                  <Text size="xs" color={colors.inputError}>
-                    {errors.lastName?.message}
-                  </Text>
-                </View>
-              )}
-              name="lastName"
-            />
             <View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  width: "100%",
-                  alignItems: "center",
-                }}
-              >
-                <View
-                  style={{
-                    paddingLeft: 5,
-                    width: 35,
-                    backgroundColor: colors.inputBg,
-                    height: 50,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderTopLeftRadius: 8,
-                    borderBottomLeftRadius: 8,
-                  }}
-                >
+              <View style={styles.phoneCodeContainer}>
+                <View style={styles.phoneCode}>
                   <Text>+1</Text>
                 </View>
                 <Controller
@@ -139,13 +80,7 @@ export default function SignupScreen() {
                     <Input
                       placeholder="Phone number"
                       keyboardType="number-pad"
-                      style={{
-                        marginVertical: 10,
-                        flexGrow: 1,
-                        borderTopLeftRadius: 0,
-                        borderBottomLeftRadius: 0,
-                        paddingHorizontal: 0,
-                      }}
+                      style={styles.phoneNumberInput}
                       onChangeText={onChange}
                       onBlur={() => {
                         if (value) {
@@ -174,23 +109,23 @@ export default function SignupScreen() {
                 <View>
                   <DatePicker
                     placeholder="Date of Birth"
-                    style={{ marginVertical: 10 }}
+                    style={styles.mv10}
                     onChange={onChange}
                     onBlur={onBlur}
                     value={value}
                     onFocus={() => Keyboard.dismiss()}
                   />
                   <Text size="xs" color={colors.inputError}>
-                    {errors.dateOfBirth?.message}
+                    {errors.dob?.message}
                   </Text>
                 </View>
               )}
-              name="dateOfBirth"
+              name="dob"
             />
           </View>
         </TouchableWithoutFeedback>
         <Button
-          style={{ marginTop: "auto" }}
+          style={styles.mtAuto}
           onPress={handleSubmit(onSubmit)}
           isLoading={isLoading}
         >
@@ -203,10 +138,41 @@ export default function SignupScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
-    paddingTop: 40,
-    paddingBottom: 20,
+    padding: scale(15),
+    paddingTop: verticalScale(35),
+    paddingBottom: verticalScale(18),
     flex: 1,
     flexDirection: "column",
+  },
+  mtAuto: {
+    marginTop: "auto",
+  },
+  mv10: {
+    marginVertical: scale(10),
+  },
+  mb20: {
+    marginBottom: verticalScale(18),
+  },
+  phoneCodeContainer: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+  },
+  phoneCode: {
+    paddingLeft: 5,
+    width: 35,
+    backgroundColor: colors.inputBg,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+  },
+  phoneNumberInput: {
+    marginVertical: verticalScale(8),
+    flexGrow: 1,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    paddingHorizontal: 0,
   },
 });

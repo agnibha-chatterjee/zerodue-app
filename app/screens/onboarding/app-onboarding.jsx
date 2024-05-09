@@ -17,7 +17,6 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import Toast from "react-native-toast-message";
 
 const onboardingImages = [
   OnboardingItem1,
@@ -106,9 +105,6 @@ function Index() {
         style={{
           marginTop: verticalScale(10),
           marginHorizontal: scale(20),
-        }}
-        onPress={() => {
-          router.push("screens/sample/spinwheel-dim");
         }}
       >
         <Text>Continue with Phone Number</Text>

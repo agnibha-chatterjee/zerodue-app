@@ -3,7 +3,7 @@ export const ZERODUE_BASE_URL =
 
 export const API_ENDPOINTS = {
   AUTH_STATUS: "/api/auth/status",
-  GENERATE_OTP: "/api/auth/generate-otp",
+  SEND_VERIFICATION_SMS: "/api/auth/send-verification-sms",
   VERIFY_OTP: "/api/auth/verify-otp",
   FETCH_METHOD_ELEMENTS_TOKEN: "/api/auth/method-elements-token",
   COMPLETE_METHOD_ONBOARDING: "/api/auth/method-onboarding-complete",
