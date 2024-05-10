@@ -19,7 +19,7 @@ export function CardListItem(props) {
 
   const Component = selectable ? Pressable : View;
 
-  const issuer = getCardIssuer(item.name);
+  const issuer = getCardIssuer("visa");
 
   const gradient = gradients[issuer];
 

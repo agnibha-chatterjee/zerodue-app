@@ -27,8 +27,6 @@ const imgs = {
 export function CardListItemHorizontal(props) {
   const { item } = props;
 
-  console.log("item", item);
-
   const issuer = getCardIssuer(item.name ?? "");
 
   const image = imgs[issuer];

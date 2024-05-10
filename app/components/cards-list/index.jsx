@@ -27,7 +27,7 @@ export function CardsList(props) {
         showsVerticalScrollIndicator={false}
         horizontal={horizontal}
         data={cards}
-        keyExtractor={(item) => (item.id ? item.id : item)}
+        keyExtractor={(item) => (item.creditCardId ? item.creditCardId : item)}
         estimatedItemSize={10}
         renderItem={({ item }) => {
           return isLoading ? (
