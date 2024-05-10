@@ -26,7 +26,7 @@ export const useAllLiabilities = () => {
 
     const sortedCards = sortBy(
       cardsWithLiabilities,
-      (card) => new Date(card.nextPaymentDueDate)
+      (card) => new Date(card.statementSummary.dueDate)
     );
 
     return sortedCards;
@@ -35,8 +35,6 @@ export const useAllLiabilities = () => {
   const totalLimit =
     data?.creditCardSummary.currentOutstandingBalance +
       data?.creditCardSummary.availableCredit ?? 0;
-
-  console.log(totalLimit);
 
   useRefetchOnFocus(refetch);
 
