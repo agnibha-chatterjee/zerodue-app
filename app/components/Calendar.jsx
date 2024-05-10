@@ -2,11 +2,10 @@ import { colors } from "@constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { scale, verticalScale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { View, StyleSheet, Modal } from "react-native";
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 
-import { Button } from "./button";
 import { IconButton } from "./button/icon-btn";
 import { CardsList } from "./cards-list";
 import { Text } from "./text";
