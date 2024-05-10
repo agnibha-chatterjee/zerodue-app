@@ -6,7 +6,6 @@ import DiscountTire from "@assets/images/card-bg/discountTire.png";
 import Paypal from "@assets/images/card-bg/paypal.png";
 import WellsFargo from "@assets/images/card-bg/wellsFargo.png";
 import { Text } from "@components/text";
-import { colors } from "@constants/colors";
 import { getCardIssuer } from "@utils/common";
 import { scale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
@@ -22,19 +21,19 @@ const imgs = {
   discountTire: DiscountTire,
   paypal: Paypal,
   wellsFargo: WellsFargo,
+  visa: Apple,
 };
 
 export function CardListItemHorizontal(props) {
   const { item } = props;
 
+  console.log("item", item);
+
   const issuer = getCardIssuer(item.name ?? "");
 
   const image = imgs[issuer];
-  const limit = item.creditLimit
-    ? item.creditLimit / 100
-    : item.availableCredit / 100;
-  const minAmount = item.nextPaymentMinimumAmount / 100;
-  const dueDate = dayjs(item.nextPaymentDueDate).format("MMM DD");
+
+  const dueDate = dayjs(item.statementSummary.dueDate).format("MMM DD");
 
   return (
     <ImageBackground
@@ -54,15 +53,15 @@ export function CardListItemHorizontal(props) {
           <Text size="lg" bold>
             {startCase(issuer)}
           </Text>
-          <Text>**** {item.mask}</Text>
+          <Text>**** {item.cardProfile.creditCardNumberMasked.slice(12)}</Text>
         </View>
         <View style={{ marginTop: "auto" }}>
           <Text size="xl" bold>
-            ${limit}
+            ${item.cardProfile.creditLimit}
           </Text>
           <Text>Balance</Text>
           <Text>
-            ${minAmount} due by {dueDate}
+            ${item.balanceDetails.outstandingBalance} due by {dueDate}
           </Text>
         </View>
       </View>
