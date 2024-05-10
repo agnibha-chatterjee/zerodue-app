@@ -56,7 +56,7 @@ export function Calendar(props) {
         size="md"
         style={{ marginLeft: scale(10), marginBottom: verticalScale(-17.5) }}
       >
-        April 2024
+        {dayjs().format("MMMM")} 2024
       </Text>
       <RNCalendar
         customHeaderTitle={<View />}
