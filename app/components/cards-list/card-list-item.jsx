@@ -19,16 +19,9 @@ export function CardListItem(props) {
 
   const Component = selectable ? Pressable : View;
 
-  const issuer = getCardIssuer("visa");
+  const issuer = getCardIssuer(item.name ?? "");
 
   const gradient = gradients[issuer];
-
-  const amountOwed = item.nextPaymentMinimumAmount / 100;
-
-  const amountOwedToBeDisplayed =
-    amountOwed % 1 === 0 ? amountOwed : amountOwed.toFixed(2);
-
-  const splitCardNumber = item.cardNumber.match(/.{1,4}/g);
 
   const rootStyles = selectable
     ? ({ pressed }) => [
@@ -96,8 +89,8 @@ export function CardListItem(props) {
           >
             <Text size="xxs">
               {pressed
-                ? splitCardNumber.join(" ")
-                : `**** **** **** ${item.mask}`}
+                ? item.cardProfile.creditCardNumberMasked
+                : `**** **** **** 0000`}
             </Text>
           </TextButton>
         </View>
@@ -113,13 +106,13 @@ export function CardListItem(props) {
             bold
             style={{ marginBottom: 2.5, textAlign: "right" }}
           >
-            {`$${amountOwedToBeDisplayed}`}
+            {`$${item.balanceDetails.outstandingBalance}`}
           </Text>
           <Text
             style={{ marginVertical: 5, textAlign: "right" }}
             color={colors.inputPlaceholderColor}
           >
-            Due on {dayjs(item.nextPaymentDueDate).format("MMM DD, YYYY")}
+            Due on {dayjs(item.statementSummary.dueDate).format("MMM DD, YYYY")}
           </Text>
           {!!item.nextPaymentMinimumAmount && (
             <IconButton

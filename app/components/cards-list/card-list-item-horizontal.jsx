@@ -10,8 +10,7 @@ import { getCardIssuer } from "@utils/common";
 import { scale } from "@utils/scaling-utils";
 import dayjs from "dayjs";
 import { startCase } from "lodash";
-import { View } from "moti";
-import { ImageBackground } from "react-native";
+import { ImageBackground, View } from "react-native";
 
 const imgs = {
   chase: Chase,

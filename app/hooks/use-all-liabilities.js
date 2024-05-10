@@ -39,7 +39,7 @@ export const useAllLiabilities = () => {
   useRefetchOnFocus(refetch);
 
   return {
-    allLiabilities: data?.liabilities,
+    allLiabilities: data?.creditCards,
     totalAmountOwed,
     isLoading,
     cardsThatHaveDues,
