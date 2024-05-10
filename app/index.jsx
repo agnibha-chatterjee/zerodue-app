@@ -5,6 +5,7 @@ import { useIsNavigationReady } from "@hooks/common/use-is-navigation-ready";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import { router } from "expo-router";
+import { isEmpty } from "lodash";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 
@@ -42,12 +43,7 @@ export default function RootScreen() {
 
         setUser(user);
         await updateAccessTokenInAsyncStorage(data.accessToken);
-
-        if (user.phoneNumberVerified && user.methodFiVerified) {
-          router.replace("screens/(tabs)/home");
-        } else {
-          router.replace("screens/onboarding/method-onboarding");
-        }
+        router.replace("screens/(tabs)/home");
       }
     };
 

@@ -11,16 +11,17 @@ export const useAllLiabilities = () => {
     queryFn: fetchAllLiabilities,
   });
 
-  const totalAmountOwed = data?.totalAmountOwed / 100 ?? 0;
+  const totalAmountOwed =
+    data?.creditCardSummary.currentOutstandingBalance ?? 0;
 
-  const totalNoOfCards = data?.liabilities?.length ?? 0;
+  const totalNoOfCards = data?.creditCardSummary.noOfCreditCards ?? 0;
 
   const cardsThatHaveDues = useMemo(() => {
-    if (!data?.liabilities) {
+    if (!data?.creditCards) {
       return [];
     }
-    const cardsWithLiabilities = data?.liabilities.filter(
-      (liability) => !!liability && liability.nextPaymentMinimumAmount > 0
+    const cardsWithLiabilities = data?.creditCards.filter(
+      (card) => !!card && card.balanceDetails.outstandingBalance > 0
     );
 
     const sortedCards = sortBy(
@@ -32,13 +33,10 @@ export const useAllLiabilities = () => {
   }, [data]);
 
   const totalLimit =
-    data?.liabilities.reduce((acc, card) => {
-      let creditLimit = card.creditLimit;
-      if (!creditLimit) {
-        creditLimit = card.availableCredit;
-      }
-      return acc + creditLimit / 100;
-    }, 0) ?? 0;
+    data?.creditCardSummary.currentOutstandingBalance +
+      data?.creditCardSummary.availableCredit ?? 0;
+
+  console.log(totalLimit);
 
   useRefetchOnFocus(refetch);
 
